@@ -15,3 +15,32 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 # FEAiStrocke
+
+
+
+flutter pub get
+
+
+yaml :
+        dependencies:
+        flutter:
+            sdk: flutter
+        fl_chart: ^0.63.0  # Bạn có thể kiểm tra phiên bản mới nhất trên pub.dev
+
+
+
+
+
+Thêm dependency vào pubspec.yaml:
+yaml
+Sao chép
+Chỉnh sửa
+dependencies:
+  google_maps_flutter: ^2.5.0
+Cấp quyền sử dụng GPS trên Android (AndroidManifest.xml):
+xml
+Sao chép
+Chỉnh sửa
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+

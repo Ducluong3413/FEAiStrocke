@@ -1,5 +1,6 @@
 import 'package:assistantstroke/page/login/home_login.dart';
-import 'package:assistantstroke/page/main_home/home_main_home.dart';
+// import 'package:assistantstroke/page/main_home/home_main_home.dart';
+import 'package:assistantstroke/page/main_home/home_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:assistantstroke/page/home/widgets/home_stroke_icon.dart';
 
@@ -85,7 +86,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomeMainHome(),
+                      builder: (context) => HomeNavbar(),
                     ), // Mở trang mới
                   );
                   print('Sing Up');
