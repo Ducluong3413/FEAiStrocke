@@ -3,15 +3,6 @@
 <plist version="1.0">
 <dict>
 
-<key>NSLocationWhenInUseUsageDescription</key>
-<string>Ứng dụng cần quyền truy cập vị trí để hiển thị bản đồ.</string>
-
-<key>NSLocationAlwaysUsageDescription</key>
-<string>Ứng dụng cần quyền truy cập vị trí ngay cả khi đang chạy nền.</string>
-
-<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-<string>Ứng dụng cần quyền truy cập vị trí để hiển thị bản đồ chính xác.</string>
-
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
