@@ -53,7 +53,7 @@ class UserInformationScreen extends StatelessWidget {
           radius: 40,
           backgroundColor: Colors.transparent,
           backgroundImage: AssetImage(
-            "assets/avatar.png",
+            "assets/images/icon/IMG_1616.JPG",
           ), // Thay bằng ảnh phù hợp
         ),
         const SizedBox(height: 10),
