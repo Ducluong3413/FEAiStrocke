@@ -76,7 +76,7 @@ class HealthHistoryScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.only(top: 20), // Margin top 20
+        padding: const EdgeInsets.only(top: 50), // Margin top 40
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

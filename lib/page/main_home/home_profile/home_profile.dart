@@ -25,7 +25,7 @@ class UserInformationScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.only(top: 60),
         child: Column(
           children: [
             const Text(
