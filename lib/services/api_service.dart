@@ -46,3 +46,18 @@
 //     }
 //   }
 // }
+
+class ApiEndpoints {
+  static const String baseUrl = "http://localhost:5062/api";
+
+  // Auth
+  static const String login = "$baseUrl/User/login";
+  static const String register = "$baseUrl/User/register";
+
+  // User
+  static const String getUserProfile = "$baseUrl/User/profile";
+  static const String updateUserProfile = "$baseUrl/User/update";
+
+  // Example thêm endpoint khác
+  static const String getPosts = "$baseUrl/Posts";
+}

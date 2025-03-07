@@ -678,12 +678,12 @@ class _HomeLoginState extends State<HomeLogin> {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomeForgetPassword(),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const HomeForgetPassword(),
+                    //   ),
+                    // );
                   },
                   child: const Text(
                     "Quên mật khẩu?",

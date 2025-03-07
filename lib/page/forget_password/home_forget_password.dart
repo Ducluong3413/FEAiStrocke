@@ -1,19 +1,268 @@
-import 'package:assistantstroke/page/login/home_login.dart';
+// import 'package:assistantstroke/page/login/home_login.dart';
+// import 'package:flutter/material.dart';
+
+// class SignUp extends StatelessWidget {
+//   const SignUp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: RegisterScreen(),
+//     );
+//   }
+// }
+
+// class RegisterScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Padding(
+//         padding: const EdgeInsets.all(20.0),
+//         child: SingleChildScrollView(
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               const SizedBox(height: 50),
+//               const Center(
+//                 child: Text(
+//                   "Register",
+//                   style: TextStyle(
+//                     fontSize: 24,
+//                     fontWeight: FontWeight.bold,
+//                     color: Color.fromARGB(255, 24, 188, 203),
+//                   ),
+//                 ),
+//               ),
+//               const SizedBox(height: 20),
+//               buildInputField(
+//                 "Full Name",
+//                 "Input Your Full Name",
+//                 Icons.person,
+
+//               ),
+//               buildInputField("Email", "Input Your Email", Icons.email),
+//               buildInputField(
+//                 "Mobile Number",
+//                 "Input Your Phone Number",
+//                 Icons.phone,
+//               ),
+//               buildInputField(
+//                 "Password",
+//                 "Input Your Password",
+//                 Icons.lock,
+//                 isPassword: true,
+//               ),
+//               buildInputField(
+//                 "Re-Enter Password",
+//                 "Re-Enter Input Your Password",
+//                 Icons.lock,
+//                 isPassword: true,
+//               ),
+//               Row(
+//                 children: [
+//                   Expanded(
+//                     child: buildInputField(
+//                       "Date Of Birth",
+//                       "",
+//                       Icons.calendar_today,
+//                     ),
+//                   ),
+//                   const SizedBox(width: 10),
+//                   Expanded(child: buildInputField("Sex", "", Icons.wc)),
+//                 ],
+//               ),
+//               const SizedBox(height: 10),
+//               Center(
+//                 child: Column(
+//                   children: [
+//                     const Text(
+//                       "By continuing, you agree to",
+//                       style: TextStyle(color: Colors.black54),
+//                     ),
+//                     GestureDetector(
+//                       onTap: () {},
+//                       child: const Text(
+//                         "Terms of Use and Privacy Policy.",
+//                         style: TextStyle(
+//                           color: Color.fromARGB(255, 24, 188, 203),
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//               const SizedBox(height: 20),
+//               SizedBox(
+//                 width: double.infinity,
+//                 child: ElevatedButton(
+//                   onPressed: () {},
+//                   style: ElevatedButton.styleFrom(
+//                     padding: EdgeInsets.symmetric(vertical: 15),
+//                     backgroundColor: Color.fromARGB(255, 24, 188, 203),
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(30),
+//                     ),
+//                   ),
+//                   child: const Text(
+//                     "Sign Up",
+//                     style: TextStyle(fontSize: 16, color: Colors.white),
+//                   ),
+//                 ),
+//               ),
+//               const SizedBox(height: 20),
+//               const Center(child: Text("or sign up with")),
+//               const SizedBox(height: 10),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: const [
+//                   Icon(
+//                     Icons.g_mobiledata,
+//                     size: 40,
+//                     color: Color.fromARGB(255, 24, 188, 203),
+//                   ),
+//                   SizedBox(width: 20),
+//                   Icon(
+//                     Icons.facebook,
+//                     size: 40,
+//                     color: Color.fromARGB(255, 24, 188, 203),
+//                   ),
+//                   SizedBox(width: 20),
+//                   Icon(
+//                     Icons.fingerprint,
+//                     size: 40,
+//                     color: Color.fromARGB(255, 24, 188, 203),
+//                   ),
+//                 ],
+//               ),
+//               const SizedBox(height: 20),
+//               Center(
+//                 child: GestureDetector(
+//                   onTap: () {
+//                     Navigator.push(
+//                       context,
+//                       MaterialPageRoute(
+//                         builder: (context) => HomeLogin(),
+//                       ), // Mở trang mới
+//                     );
+//                   },
+
+//                   child: const Text.rich(
+//                     TextSpan(
+//                       text: "Don’t have an account? ",
+//                       children: [
+//                         TextSpan(
+//                           text: "Sign Up",
+//                           style: TextStyle(
+//                             color: Color.fromARGB(255, 24, 188, 203),
+//                             fontWeight: FontWeight.bold,
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               const SizedBox(height: 20),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget buildInputField(
+//     String label,
+//     String hint,
+//     IconData icon, {
+//     bool isPassword = false,
+//   }) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(vertical: 8.0),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+//           TextField(
+//             obscureText: isPassword,
+//             decoration: InputDecoration(
+//               prefixIcon: Icon(icon),
+//               hintText: hint,
+//               filled: true,
+//               fillColor: Colors.blueGrey[50],
+//               border: OutlineInputBorder(
+//                 borderRadius: BorderRadius.circular(10),
+//                 borderSide: BorderSide.none,
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+import 'package:assistantstroke/controler/singn_controller.dart';
 import 'package:flutter/material.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 
-class HomeForgetPassword extends StatelessWidget {
-  const HomeForgetPassword({super.key});
+import 'package:assistantstroke/page/login/home_login.dart';
 
+class SignUp extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: RegisterScreen(),
-    );
-  }
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class RegisterScreen extends StatelessWidget {
+class _RegisterScreenState extends State<SignUp> {
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _rePasswordController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _sexController = TextEditingController();
+
+  bool _isLoading = false;
+
+  void _handleSign() async {
+    String username = _fullNameController.text.trim();
+    String email = _emailController.text.trim();
+    String phone = _phoneController.text.trim();
+    String password = _passwordController.text.trim();
+    String dob = _dobController.text.trim();
+    String sex = _sexController.text.trim();
+
+    if (username.isEmpty ||
+        password.isEmpty ||
+        email.isEmpty ||
+        phone.isEmpty ||
+        dob.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Vui lòng nhập email hoặc số điện thoại và mật khẩu'),
+        ),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    // Pass data to LoginController
+    SignController signController = SignController(
+      username: username,
+      email: email,
+      phone: phone,
+      password: password,
+      dob: dob,
+      sex: sex,
+    );
+    await signController.sign(context); // Call login method
+
+    setState(() => _isLoading = false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,36 +288,59 @@ class RegisterScreen extends StatelessWidget {
                 "Full Name",
                 "Input Your Full Name",
                 Icons.person,
+                _fullNameController,
               ),
-              buildInputField("Email", "Input Your Email", Icons.email),
+              buildInputField(
+                "Email",
+                "Input Your Email",
+                Icons.email,
+                _emailController,
+              ),
               buildInputField(
                 "Mobile Number",
                 "Input Your Phone Number",
                 Icons.phone,
+                _phoneController,
               ),
               buildInputField(
                 "Password",
                 "Input Your Password",
                 Icons.lock,
+                _passwordController,
                 isPassword: true,
               ),
               buildInputField(
                 "Re-Enter Password",
-                "Re-Enter Input Your Password",
+                "Re-Enter Your Password",
                 Icons.lock,
+                _rePasswordController,
                 isPassword: true,
               ),
               Row(
                 children: [
                   Expanded(
-                    child: buildInputField(
+                    // child: buildInputField(
+                    //   "Date Of Birth",
+                    //   "DD/MM/YYYY",
+                    //   Icons.calendar_today,
+                    //   _dobController,
+                    // ),
+                    child: buildInputdate(
                       "Date Of Birth",
-                      "",
+                      "DD/MM/YYYY",
                       Icons.calendar_today,
+                      _dobController,
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Expanded(child: buildInputField("Sex", "", Icons.wc)),
+                  Expanded(
+                    child: buildInputField(
+                      "Sex",
+                      "Male/Female",
+                      Icons.wc,
+                      _sexController,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 10),
@@ -96,18 +368,21 @@ class RegisterScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _isLoading ? null : _handleSign,
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
                     backgroundColor: Color.fromARGB(255, 24, 188, 203),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: const Text(
-                    "Sign Up",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
+                  child:
+                      _isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                            "Sign Up",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -141,18 +416,15 @@ class RegisterScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => HomeLogin(),
-                      ), // Mở trang mới
+                      MaterialPageRoute(builder: (context) => HomeLogin()),
                     );
                   },
-
                   child: const Text.rich(
                     TextSpan(
-                      text: "Don’t have an account? ",
+                      text: "Already have an account? ",
                       children: [
                         TextSpan(
-                          text: "Sign Up",
+                          text: "Sign In",
                           style: TextStyle(
                             color: Color.fromARGB(255, 24, 188, 203),
                             fontWeight: FontWeight.bold,
@@ -174,7 +446,8 @@ class RegisterScreen extends StatelessWidget {
   Widget buildInputField(
     String label,
     String hint,
-    IconData icon, {
+    IconData icon,
+    TextEditingController controller, {
     bool isPassword = false,
   }) {
     return Padding(
@@ -182,8 +455,9 @@ class RegisterScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
           TextField(
+            controller: controller,
             obscureText: isPassword,
             decoration: InputDecoration(
               prefixIcon: Icon(icon),
@@ -199,5 +473,59 @@ class RegisterScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget buildInputdate(
+    String label,
+    String hint,
+    IconData icon,
+    TextEditingController controller, {
+    bool isPassword = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+          TextField(
+            controller: controller,
+            readOnly: true, // Chặn nhập tay, chỉ chọn qua DatePicker
+            onTap: () => _selectDate(context),
+            obscureText: isPassword,
+            decoration: InputDecoration(
+              prefixIcon: Icon(icon),
+              hintText: "YYYY-MM-DD",
+              // hintText: hint,
+              filled: true,
+              fillColor: Colors.blueGrey[50],
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Hàm mở DatePicker
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+
+    if (pickedDate != null) {
+      // Format lại ngày thành yyyy-MM-dd
+      String formattedDate =
+          "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+      setState(() {
+        _dobController.text = formattedDate;
+      });
+    }
   }
 }

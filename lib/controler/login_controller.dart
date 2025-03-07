@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:assistantstroke/page/main_home/home_navbar.dart';
+import 'package:assistantstroke/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +19,8 @@ class LoginController {
 
   Future<void> login(BuildContext context) async {
     await init(); // Đảm bảo SharedPreferences được khởi tạo
-    final String url = 'http://localhost:5062/api/User/login';
+    // final String url = 'http://localhost:5062/api/User/login';
+    final String url = ApiEndpoints.login;
 
     try {
       print('🔄 Đang gửi request đăng nhập với: $username / $password');

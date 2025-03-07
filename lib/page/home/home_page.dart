@@ -1,6 +1,7 @@
+import 'package:assistantstroke/page/forget_password/home_forget_password.dart';
 import 'package:assistantstroke/page/login/home_login.dart';
 // import 'package:assistantstroke/page/main_home/home_main_home.dart';
-import 'package:assistantstroke/page/main_home/home_navbar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:assistantstroke/page/home/widgets/home_stroke_icon.dart';
 
@@ -86,7 +87,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomeNavbar(),
+                      builder: (context) => SignUp(),
                     ), // Mở trang mới
                   );
                   print('Sing Up');
