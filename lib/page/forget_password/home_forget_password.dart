@@ -1,209 +1,6 @@
-// import 'package:assistantstroke/page/login/home_login.dart';
-// import 'package:flutter/material.dart';
-
-// class SignUp extends StatelessWidget {
-//   const SignUp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: RegisterScreen(),
-//     );
-//   }
-// }
-
-// class RegisterScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Padding(
-//         padding: const EdgeInsets.all(20.0),
-//         child: SingleChildScrollView(
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               const SizedBox(height: 50),
-//               const Center(
-//                 child: Text(
-//                   "Register",
-//                   style: TextStyle(
-//                     fontSize: 24,
-//                     fontWeight: FontWeight.bold,
-//                     color: Color.fromARGB(255, 24, 188, 203),
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(height: 20),
-//               buildInputField(
-//                 "Full Name",
-//                 "Input Your Full Name",
-//                 Icons.person,
-
-//               ),
-//               buildInputField("Email", "Input Your Email", Icons.email),
-//               buildInputField(
-//                 "Mobile Number",
-//                 "Input Your Phone Number",
-//                 Icons.phone,
-//               ),
-//               buildInputField(
-//                 "Password",
-//                 "Input Your Password",
-//                 Icons.lock,
-//                 isPassword: true,
-//               ),
-//               buildInputField(
-//                 "Re-Enter Password",
-//                 "Re-Enter Input Your Password",
-//                 Icons.lock,
-//                 isPassword: true,
-//               ),
-//               Row(
-//                 children: [
-//                   Expanded(
-//                     child: buildInputField(
-//                       "Date Of Birth",
-//                       "",
-//                       Icons.calendar_today,
-//                     ),
-//                   ),
-//                   const SizedBox(width: 10),
-//                   Expanded(child: buildInputField("Sex", "", Icons.wc)),
-//                 ],
-//               ),
-//               const SizedBox(height: 10),
-//               Center(
-//                 child: Column(
-//                   children: [
-//                     const Text(
-//                       "By continuing, you agree to",
-//                       style: TextStyle(color: Colors.black54),
-//                     ),
-//                     GestureDetector(
-//                       onTap: () {},
-//                       child: const Text(
-//                         "Terms of Use and Privacy Policy.",
-//                         style: TextStyle(
-//                           color: Color.fromARGB(255, 24, 188, 203),
-//                           fontWeight: FontWeight.bold,
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//               const SizedBox(height: 20),
-//               SizedBox(
-//                 width: double.infinity,
-//                 child: ElevatedButton(
-//                   onPressed: () {},
-//                   style: ElevatedButton.styleFrom(
-//                     padding: EdgeInsets.symmetric(vertical: 15),
-//                     backgroundColor: Color.fromARGB(255, 24, 188, 203),
-//                     shape: RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(30),
-//                     ),
-//                   ),
-//                   child: const Text(
-//                     "Sign Up",
-//                     style: TextStyle(fontSize: 16, color: Colors.white),
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(height: 20),
-//               const Center(child: Text("or sign up with")),
-//               const SizedBox(height: 10),
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: const [
-//                   Icon(
-//                     Icons.g_mobiledata,
-//                     size: 40,
-//                     color: Color.fromARGB(255, 24, 188, 203),
-//                   ),
-//                   SizedBox(width: 20),
-//                   Icon(
-//                     Icons.facebook,
-//                     size: 40,
-//                     color: Color.fromARGB(255, 24, 188, 203),
-//                   ),
-//                   SizedBox(width: 20),
-//                   Icon(
-//                     Icons.fingerprint,
-//                     size: 40,
-//                     color: Color.fromARGB(255, 24, 188, 203),
-//                   ),
-//                 ],
-//               ),
-//               const SizedBox(height: 20),
-//               Center(
-//                 child: GestureDetector(
-//                   onTap: () {
-//                     Navigator.push(
-//                       context,
-//                       MaterialPageRoute(
-//                         builder: (context) => HomeLogin(),
-//                       ), // Mở trang mới
-//                     );
-//                   },
-
-//                   child: const Text.rich(
-//                     TextSpan(
-//                       text: "Don’t have an account? ",
-//                       children: [
-//                         TextSpan(
-//                           text: "Sign Up",
-//                           style: TextStyle(
-//                             color: Color.fromARGB(255, 24, 188, 203),
-//                             fontWeight: FontWeight.bold,
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(height: 20),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget buildInputField(
-//     String label,
-//     String hint,
-//     IconData icon, {
-//     bool isPassword = false,
-//   }) {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(vertical: 8.0),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
-//           TextField(
-//             obscureText: isPassword,
-//             decoration: InputDecoration(
-//               prefixIcon: Icon(icon),
-//               hintText: hint,
-//               filled: true,
-//               fillColor: Colors.blueGrey[50],
-//               border: OutlineInputBorder(
-//                 borderRadius: BorderRadius.circular(10),
-//                 borderSide: BorderSide.none,
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
+import 'package:assistantstroke/controler/otp_controller.dart';
 import 'package:assistantstroke/controler/singn_controller.dart';
+import 'package:assistantstroke/page/forget_password/home_otp.dart';
 import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
@@ -231,6 +28,7 @@ class _RegisterScreenState extends State<SignUp> {
     String email = _emailController.text.trim();
     String phone = _phoneController.text.trim();
     String password = _passwordController.text.trim();
+    String re_password = _rePasswordController.text.trim();
     String dob = _dobController.text.trim();
     String sex = _sexController.text.trim();
 
@@ -245,8 +43,26 @@ class _RegisterScreenState extends State<SignUp> {
         ),
       );
       return;
+    } else if (password != re_password) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Mật khẩu không khớp')));
+      return;
     }
-
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder:
+            (context) => HomeOtp(
+              username: username,
+              email: email,
+              phone: phone,
+              password: password,
+              dob: dob,
+              sex: sex,
+            ),
+      ),
+    );
     setState(() => _isLoading = true);
 
     // Pass data to LoginController
@@ -259,6 +75,17 @@ class _RegisterScreenState extends State<SignUp> {
       sex: sex,
     );
     await signController.sign(context); // Call login method
+    // Truyền dữ liệu sang OtpController
+    // OtpController otpController = OtpController(
+    //   otp: otp, // Bạn sẽ có OTP từ màn hình OTP
+    //   username: username,
+    //   email: email,
+    //   phone: phone,
+    //   password: password,
+    //   dob: dob,
+    //   sex: sex,
+    // );
+    // await otpController.Otp(context); // Gọi phương thức OTP
 
     setState(() => _isLoading = false);
   }
@@ -333,13 +160,16 @@ class _RegisterScreenState extends State<SignUp> {
                     ),
                   ),
                   const SizedBox(width: 10),
+                  // Expanded(
+                  //   child: buildInputField(
+                  //     "Sex",
+                  //     "Male/Female",
+                  //     Icons.wc,
+                  //     _sexController,
+                  //   ),
+                  // ),
                   Expanded(
-                    child: buildInputField(
-                      "Sex",
-                      "Male/Female",
-                      Icons.wc,
-                      _sexController,
-                    ),
+                    child: buildInputSex("Sex", Icons.wc, _sexController),
                   ),
                 ],
               ),
@@ -504,6 +334,43 @@ class _RegisterScreenState extends State<SignUp> {
                 borderSide: BorderSide.none,
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildInputSex(
+    String label,
+    IconData icon,
+    TextEditingController controller,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+          DropdownButtonFormField<String>(
+            value: controller.text.isNotEmpty ? controller.text : null,
+            decoration: InputDecoration(
+              prefixIcon: Icon(icon),
+              filled: true,
+              fillColor: Colors.blueGrey[50],
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
+            ),
+            items: [
+              DropdownMenuItem(value: "true", child: Text("Nam")),
+              DropdownMenuItem(value: "false", child: Text("Nữ")),
+            ],
+            onChanged: (value) {
+              setState(() {
+                controller.text = value!;
+              });
+            },
           ),
         ],
       ),
