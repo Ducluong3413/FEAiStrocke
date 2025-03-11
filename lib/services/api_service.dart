@@ -49,7 +49,9 @@
 
 class ApiEndpoints {
   // static const String baseUrl = "http://localhost:5062/api";
-  static const String baseUrl = "http://localhost:5062/api";
+  static const String baseUrl = "http://localhost:5062/api"; //iphone
+  // static const String baseUrl =
+  //     "http://10.0.2.2:5062/api"; // Nếu chạy trên Android Emulator
 
   // Auth
   static const String login = "$baseUrl/User/login";

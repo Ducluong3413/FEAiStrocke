@@ -48,3 +48,7 @@ Chỉnh sửa
 
 
  flutter pub add dio
+
+
+
+ nếu chạy tren android thì hãy chuyển ip ở api_service.dart
