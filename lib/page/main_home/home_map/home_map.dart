@@ -354,7 +354,7 @@ class _HomeMapState extends State<HomeMap> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HospitalMapScreen(hospital),
+                          builder: (context) => HospitalMapScreen(hospital:hospital),
                         ),
                       );
                     },

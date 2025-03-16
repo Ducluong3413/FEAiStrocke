@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 
 class OtpController {
   final String otp;
-
   final String username;
   final String email;
   final String phone;

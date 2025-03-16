@@ -9,13 +9,12 @@ class HomeLogin extends StatefulWidget {
   @override
   _HomeLoginState createState() => _HomeLoginState();
 }
-
 class _HomeLoginState extends State<HomeLogin> {
   final TextEditingController Username = TextEditingController();
   final TextEditingController Password = TextEditingController();
   bool _isLoading = false;
+  bool _isPasswordVisible = false; // Biến kiểm soát hiển thị mật khẩu
 
-  // Handle login when user presses login button
   void _handleLogin() async {
     String username = Username.text.trim();
     String password = Password.text.trim();
@@ -31,12 +30,11 @@ class _HomeLoginState extends State<HomeLogin> {
 
     setState(() => _isLoading = true);
 
-    // Pass data to LoginController
     LoginController loginController = LoginController(
       username: username,
       password: password,
     );
-    await loginController.login(context); // Call login method
+    await loginController.login(context);
 
     setState(() => _isLoading = false);
   }
@@ -61,7 +59,6 @@ class _HomeLoginState extends State<HomeLogin> {
               ),
             ),
             const SizedBox(height: 20),
-            const Text("Email hoặc Số điện thoại"),
             TextField(
               controller: Username,
               decoration: InputDecoration(
@@ -77,14 +74,22 @@ class _HomeLoginState extends State<HomeLogin> {
               ),
             ),
             const SizedBox(height: 10),
-            const Text("Mật khẩu"),
             TextField(
               controller: Password,
-              obscureText: true,
+              obscureText: !_isPasswordVisible, // Điều khiển hiển thị mật khẩu
               decoration: InputDecoration(
                 labelText: 'Mật khẩu',
                 prefixIcon: const Icon(Icons.lock),
-                suffixIcon: const Icon(Icons.visibility_off),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },
+                  child: Icon(
+                    _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  ),
+                ),
                 hintText: "Nhập mật khẩu",
                 filled: true,
                 fillColor: Colors.blueGrey[50],
@@ -100,12 +105,7 @@ class _HomeLoginState extends State<HomeLogin> {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: GestureDetector(
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => const HomeForgetPassword(),
-                    //   ),
-                    // );
+                    // Chuyển đến trang quên mật khẩu
                   },
                   child: const Text(
                     "Quên mật khẩu?",
@@ -126,68 +126,14 @@ class _HomeLoginState extends State<HomeLogin> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child:
-                    _isLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                          "Đăng nhập",
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Center(child: Text("Hoặc đăng nhập với")),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(
-                  Icons.g_mobiledata,
-                  size: 40,
-                  color: Color.fromARGB(255, 24, 188, 203),
-                ),
-                SizedBox(width: 20),
-                Icon(
-                  Icons.facebook,
-                  size: 40,
-                  color: Color.fromARGB(255, 24, 188, 203),
-                ),
-                SizedBox(width: 20),
-                Icon(
-                  Icons.fingerprint,
-                  size: 40,
-                  color: Color.fromARGB(255, 24, 188, 203),
-                ),
-              ],
-            ),
-            const Spacer(),
-            Center(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SignUp(),
-                    ), // Màn hình đăng ký
-                  );
-                },
-                child: Text.rich(
-                  TextSpan(
-                    text: "Chưa có tài khoản? ",
-                    children: [
-                      TextSpan(
-                        text: "Đăng ký",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 24, 188, 203),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
+                child: _isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text(
+                  "Đăng nhập",
+                  style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
               ),
             ),
-            const SizedBox(height: 20),
           ],
         ),
       ),

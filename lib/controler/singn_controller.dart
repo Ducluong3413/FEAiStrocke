@@ -46,7 +46,7 @@ class SignController {
       final response = await http.post(
         Uri.parse(url),
         body: jsonEncode({
-          "Username": phone,
+          "Username": email,
           "Password": password,
           "Role": "User",
           "Patient": {
@@ -65,6 +65,20 @@ class SignController {
       print('📩 Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder:
+                (context) => HomeOtp(
+                  username: username,
+                  email: email,
+                  phone: phone,
+                  password: password,
+                  dob: dob,
+                  sex: sex,
+                ),
+          ),
+        );
         print('✅ Đã gửi mã đến gmail');
         ScaffoldMessenger.of(
           context,

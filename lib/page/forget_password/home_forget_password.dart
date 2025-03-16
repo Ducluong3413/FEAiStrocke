@@ -49,20 +49,7 @@ class _RegisterScreenState extends State<SignUp> {
       ).showSnackBar(const SnackBar(content: Text('Mật khẩu không khớp')));
       return;
     }
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder:
-            (context) => HomeOtp(
-              username: username,
-              email: email,
-              phone: phone,
-              password: password,
-              dob: dob,
-              sex: sex,
-            ),
-      ),
-    );
+
     setState(() => _isLoading = true);
 
     // Pass data to LoginController
