@@ -1,4 +1,6 @@
+import 'package:assistantstroke/controler/profile_controller.dart';
 import 'package:flutter/material.dart';
+// Import ProfileController
 
 class HomeProfile extends StatelessWidget {
   @override
@@ -10,7 +12,35 @@ class HomeProfile extends StatelessWidget {
   }
 }
 
-class UserInformationScreen extends StatelessWidget {
+class UserInformationScreen extends StatefulWidget {
+  @override
+  _UserInformationScreenState createState() => _UserInformationScreenState();
+}
+
+class _UserInformationScreenState extends State<UserInformationScreen> {
+  String username = "Đang tải...";
+  String email = "Đang tải...";
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  void _loadUserData() async {
+    ProfileController profileController = ProfileController();
+    Map<String, dynamic>? userData = await profileController.fetchUserData(
+      context,
+    );
+
+    if (userData != null) {
+      setState(() {
+        username = userData['username'] ?? "Không có tên";
+        email = userData['email'] ?? "Không có email";
+      });
+    }
+  }
+
   final List<Map<String, dynamic>> menuItems = [
     {"icon": Icons.person, "text": "Profile"},
     {"icon": Icons.favorite, "text": "More Emergency Phone Number"},
@@ -52,20 +82,14 @@ class UserInformationScreen extends StatelessWidget {
         CircleAvatar(
           radius: 40,
           backgroundColor: Colors.transparent,
-          backgroundImage: AssetImage(
-            "assets/images/icon/IMG_1616.JPG",
-          ), // Thay bằng ảnh phù hợp
+          backgroundImage: AssetImage("assets/images/icon/IMG_1616.JPG"),
         ),
         const SizedBox(height: 10),
-        const Text(
-          "Minh Nguyet",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        Text(
+          username,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        const Text("+123 567 89000"),
-        const Text(
-          "minhnguyet@gmail.com",
-          style: TextStyle(color: Colors.grey),
-        ),
+        Text(email, style: const TextStyle(color: Colors.grey)),
       ],
     );
   }

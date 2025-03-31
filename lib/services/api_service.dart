@@ -57,6 +57,7 @@ class ApiEndpoints {
   static const String login = "$baseUrl/User/login";
   static const String register = "$baseUrl/User/register";
   static const String verifyOtp = "$baseUrl/User/verifyOtp";
+  static const String profile = "$baseUrl/User/users";
   // User
   static const String getUserProfile = "$baseUrl/User/profile";
   static const String updateUserProfile = "$baseUrl/User/update";

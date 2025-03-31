@@ -27,7 +27,7 @@ class LoginController {
 
       final response = await http.post(
         Uri.parse(url),
-        body: jsonEncode({'username': username, 'password': password}),
+        body: jsonEncode({'credential': username, 'password': password}),
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -36,31 +36,20 @@ class LoginController {
 
       if (response.statusCode == 200) {
         try {
-          print('✅ Đăng nhập thành công');
+          final Map<String, dynamic> json = jsonDecode(response.body);
+          final token = json['data']['token'];
+          final userId = json['data']['userId'];
+
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('token', token);
+          await prefs.setInt('userId', userId);
+
+          print('✅ Đăng nhập thành công, token đã được lưu');
 
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => HomeNavbar()),
           );
-          // final responseData = jsonDecode(response.body);
-          // print('🔍 Response Code: ${response.statusCode}');
-
-          // if (responseData is Map<String, dynamic> &&
-          //     responseData.containsKey('token')) {
-          //   final String token = responseData['token'];
-          //   await prefs.setString('token', token);
-          //   print('✅ Đăng nhập thành công, token: $token');
-
-          //   Navigator.pushReplacement(
-          //     context,
-          //     MaterialPageRoute(builder: (context) => HomeNavbar()),
-          //   );
-          // } else {
-          //   print('⚠️ API không trả về token hợp lệ!');
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     SnackBar(content: Text('API không trả về token hợp lệ!')),
-          //   );
-          // }
         } catch (e) {
           print('❌ Lỗi khi decode JSON: $e');
           ScaffoldMessenger.of(context).showSnackBar(

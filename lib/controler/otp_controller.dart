@@ -25,7 +25,7 @@ class OtpController {
   });
 
   Future<void> Otp(BuildContext context) async {
-    final String url = ApiEndpoints.verifyOtp; //otp
+    final String url = ApiEndpoints.verifyOtp; //otpc
 
     try {
       print(

@@ -48,15 +48,13 @@ class SignController {
         body: jsonEncode({
           "Username": email,
           "Password": password,
-          "Role": "User",
-          "Patient": {
-            "PatientName": username,
-            "DateOfBirth": formattedDob, // Định dạng đúng yyyy-MM-dd
-            "Gender":
-                sex == "Male", // Nếu sex là "Male" thì true, ngược lại false
-            "Phone": phone,
-            "Email": email,
-          },
+          // "Role": "User",
+          "Email": email,
+          "Phone": phone,
+          "PatientName": username,
+          "DateOfBirth": formattedDob, // Định dạng đúng yyyy-MM-dd
+          "Gender":
+              sex == "Male", // Nếu sex là "Male" thì true, ngược lại false
         }),
         headers: {'Content-Type': 'application/json'},
       );
