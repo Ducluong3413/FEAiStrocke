@@ -1,53 +1,56 @@
-import 'package:assistantstroke/page/main_home/home_history/home_history.dart';
-import 'package:assistantstroke/page/main_home/home_map/home_map.dart';
-import 'package:assistantstroke/page/main_home/home_profile/home_profile.dart';
-import 'package:assistantstroke/page/main_home/home_view/home_view.dart';
+import 'package:assistantstroke/page/home/home_page.dart';
+import 'package:assistantstroke/page/main_home/home_main_home.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeNavbar extends StatelessWidget {
+class HomeNavbar extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: HomeScreen());
+  _HomeNavbarState createState() => _HomeNavbarState();
+}
+
+class _HomeNavbarState extends State<HomeNavbar> {
+  bool? isLoggedIn;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkToken();
   }
-}
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
+  Future<void> _checkToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
 
-class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
-  final List<Widget> _pages = [
-    HomeView(),
-    HomeMap(),
-    HomeHistory(),
-    HomeProfile(),
-  ];
-
-  void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      isLoggedIn = token != null;
     });
   }
 
+  void _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+
+    setState(() {
+      isLoggedIn = false;
+    });
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+      (Route<dynamic> route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: Colors.cyan,
-        unselectedItemColor: Colors.cyan.withOpacity(0.5),
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Trang chủ"),
-          BottomNavigationBarItem(icon: Icon(Icons.map), label: "Bản đồ"),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt), label: "Hóa đơn"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Hồ sơ"),
-        ],
-      ),
-    );
+    if (isLoggedIn == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    if (!isLoggedIn!) {
+      return HomePage();
+    }
+
+    return HomeScreen(onLogout: _logout);
   }
 }

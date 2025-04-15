@@ -1,313 +1,681 @@
+// import 'package:fl_chart/fl_chart.dart';
 // import 'package:flutter/material.dart';
 
 // class HomeHistory extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: HealthHistoryScreen(),
+//     return Scaffold(
+//       body: SingleChildScrollView(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           children: [
+//             Text(
+//               'Lịch sử các chỉ số sức khỏe',
+//               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+//             ),
+//             SizedBox(height: 20),
+
+//             _buildChart(
+//               'Huyết áp tâm thu',
+//               Colors.red,
+//               Colors.blue,
+//               _getData1(),
+//             ),
+//             _buildChart(
+//               'Huyết áp tâm trương',
+//               Colors.red,
+//               Colors.blue,
+//               _getData2(),
+//             ),
+//             _buildChart('SpO2', Colors.red, Colors.blue, _getData3()),
+//             _buildChart('Nhiệt độ (°C)', Colors.red, Colors.blue, _getData4()),
+//             _buildChart('Mạch đập (bpm)', Colors.red, Colors.blue, _getData5()),
+//             _buildChart('pH', Colors.red, Colors.blue, _getData6()),
+//           ],
+//         ),
+//       ),
 //     );
 //   }
+
+// Widget _buildChart(
+//   String title,
+//   Color color1,
+//   Color color2,
+//   List<List<double>> data,
+// ) {
+//   List<double> ngay = data[0];
+//   List<double> dem = data[1];
+
+//   return Column(
+//     crossAxisAlignment: CrossAxisAlignment.start,
+//     children: [
+//       Text(
+//         title,
+//         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+//       ),
+//       SizedBox(height: 8),
+//       Container(
+//         height: 150,
+//         child: BarChart(
+//           BarChartData(
+//             barGroups: List.generate(ngay.length, (index) {
+//               return BarChartGroupData(
+//                 x: index + 1,
+//                 barRods: [
+//                   BarChartRodData(toY: ngay[index], color: color1, width: 8),
+//                   BarChartRodData(toY: dem[index], color: color2, width: 8),
+//                 ],
+//               );
+//             }),
+//             titlesData: FlTitlesData(
+//               leftTitles: AxisTitles(
+//                 sideTitles: SideTitles(
+//                   showTitles: true,
+//                   reservedSize: 30,
+//                   getTitlesWidget:
+//                       (value, meta) => Text(
+//                         '${value.toInt()}',
+//                         style: TextStyle(fontSize: 10),
+//                       ),
+//                 ),
+//               ),
+//               bottomTitles: AxisTitles(
+//                 sideTitles: SideTitles(
+//                   showTitles: true,
+//                   getTitlesWidget:
+//                       (value, meta) => Text(
+//                         '${value.toInt()}',
+//                         style: TextStyle(fontSize: 10),
+//                       ),
+//                 ),
+//               ),
+//               rightTitles: AxisTitles(
+//                 sideTitles: SideTitles(showTitles: false),
+//               ),
+//               topTitles: AxisTitles(
+//                 sideTitles: SideTitles(showTitles: false),
+//               ),
+//             ),
+//             borderData: FlBorderData(show: false),
+//             gridData: FlGridData(show: true),
+//           ),
+//         ),
+//       ),
+//       SizedBox(height: 4),
+//       Row(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           _buildLegend(color1, 'Ngày'),
+//           SizedBox(width: 16),
+//           _buildLegend(color2, 'Đêm'),
+//         ],
+//       ),
+//       SizedBox(height: 16),
+//     ],
+//   );
 // }
 
-// class HealthHistoryScreen extends StatelessWidget {
-//   final List<Map<String, dynamic>> data = [
-//     {
-//       "date": "27/02/2025",
-//       "records": [
-//         {
-//           "type": "Heart Rate",
-//           "value": "89bpm",
-//           "time": "10:30",
-//           "color": Colors.green,
-//         },
-//         {
-//           "type": "Blood Pressure",
-//           "value": "105/78 mmHg",
-//           "time": "10:30",
-//           "color": Colors.green,
-//         },
-//       ],
-//     },
-//     {
-//       "date": "28/02/2025",
-//       "records": [
-//         {
-//           "type": "Heart Rate",
-//           "value": "120bpm",
-//           "time": "4:21",
-//           "color": Colors.red,
-//         },
-//         {
-//           "type": "Blood Pressure",
-//           "value": "105/78 mmHg",
-//           "time": "4:21",
-//           "color": Colors.green,
-//         },
-//         {
-//           "type": "Heart Rate",
-//           "value": "100bpm",
-//           "time": "3:00",
-//           "color": Colors.red,
-//         },
-//         {
-//           "type": "Blood Pressure",
-//           "value": "100/78 mmHg",
-//           "time": "3:00",
-//           "color": Colors.green,
-//         },
-//       ],
-//     },
-//     {
-//       "date": "25/02/2025",
-//       "records": [
-//         {
-//           "type": "Heart Rate",
-//           "value": "80bpm",
-//           "time": "4:21",
-//           "color": Colors.yellow,
-//         },
-//       ],
-//     },
-//   ];
+// import 'package:fl_chart/fl_chart.dart';
+// import 'package:flutter/material.dart';
+
+// class HomeHistory extends StatefulWidget {
+//   @override
+//   _HomeHistoryState createState() => _HomeHistoryState();
+// }
+
+// class _HomeHistoryState extends State<HomeHistory> {
+//   int selectedDayIndex = 0; // mặc định là ngày đầu tiên (index 0)
 
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       backgroundColor: Colors.white,
-//       body: Padding(
-//         padding: const EdgeInsets.only(top: 50), // Margin top 40
+//       body: SingleChildScrollView(
+//         padding: const EdgeInsets.all(16.0),
 //         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.center,
 //           children: [
-//             const Text(
-//               "Health Parameter History",
-//               style: TextStyle(
-//                 fontSize: 24,
-//                 fontWeight: FontWeight.bold,
-//                 color: Colors.cyan,
-//               ),
+//             Text(
+//               'Lịch sử các chỉ số sức khỏe',
+//               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
 //             ),
-//             const SizedBox(height: 10),
-//             _buildFilterButtons(),
-//             const SizedBox(height: 10),
-//             Expanded(child: _buildHistoryList()),
+//             SizedBox(height: 10),
+//             _buildDayButtons(),
+
+//             SizedBox(height: 20),
+//             _buildChart(
+//               'Huyết áp tâm thu',
+//               Colors.red,
+//               Colors.blue,
+//               _getData1(),
+//             ),
+//             _buildChart(
+//               'Huyết áp tâm trương',
+//               Colors.red,
+//               Colors.blue,
+//               _getData2(),
+//             ),
+//             _buildChart('SpO2', Colors.red, Colors.blue, _getData3()),
+//             _buildChart('Nhiệt độ (°C)', Colors.red, Colors.blue, _getData4()),
+//             _buildChart('Mạch đập (bpm)', Colors.red, Colors.blue, _getData5()),
+//             _buildChart('pH', Colors.red, Colors.blue, _getData6()),
 //           ],
 //         ),
 //       ),
 //     );
 //   }
 
-//   Widget _buildFilterButtons() {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.center,
+//   Widget _buildDayButtons() {
+//     return Wrap(
+//       spacing: 8,
+//       runSpacing: 8,
+//       children: List.generate(14, (index) {
+//         return ElevatedButton(
+//           style: ElevatedButton.styleFrom(
+//             backgroundColor:
+//                 selectedDayIndex == index ? Colors.blue : Colors.grey[300],
+//             foregroundColor:
+//                 selectedDayIndex == index ? Colors.white : Colors.black,
+//             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+//           ),
+//           onPressed: () {
+//             setState(() {
+//               selectedDayIndex = index;
+//             });
+//           },
+//           child: Text('${index + 1}'),
+//         );
+//       }),
+//     );
+//   }
+
+//   Widget _buildChart(
+//     String title,
+//     Color color1,
+//     Color color2,
+//     List<List<double>> data,
+//   ) {
+//     List<double> ngay = data[0];
+//     List<double> dem = data[1];
+
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
 //       children: [
-//         _buildFilterButton("ALL", Icons.filter_alt, Colors.grey),
-//         const SizedBox(width: 10),
-//         _buildFilterButton("Heart Rate", Icons.favorite, Colors.cyan),
-//         const SizedBox(width: 10),
-//         _buildFilterButton("Blood Pressure", Icons.monitor_heart, Colors.cyan),
+//         Text(
+//           '$title - Ngày ${selectedDayIndex + 1}',
+//           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+//         ),
+//         SizedBox(height: 8),
+//         Container(
+//           height: 150,
+//           child: BarChart(
+//             BarChartData(
+//               barGroups: [
+//                 BarChartGroupData(
+//                   x: selectedDayIndex + 1,
+//                   barRods: [
+//                     BarChartRodData(
+//                       toY: ngay[selectedDayIndex],
+//                       color: color1,
+//                       width: 12,
+//                     ),
+//                     BarChartRodData(
+//                       toY: dem[selectedDayIndex],
+//                       color: color2,
+//                       width: 12,
+//                     ),
+//                   ],
+//                 ),
+//               ],
+//               titlesData: FlTitlesData(
+//                 leftTitles: AxisTitles(
+//                   sideTitles: SideTitles(
+//                     showTitles: true,
+//                     reservedSize: 30,
+//                     getTitlesWidget:
+//                         (value, meta) => Text(
+//                           '${value.toInt()}',
+//                           style: TextStyle(fontSize: 10),
+//                         ),
+//                   ),
+//                 ),
+//                 bottomTitles: AxisTitles(
+//                   sideTitles: SideTitles(
+//                     showTitles: true,
+//                     getTitlesWidget:
+//                         (value, meta) => Text(
+//                           '${value.toInt()}',
+//                           style: TextStyle(fontSize: 10),
+//                         ),
+//                   ),
+//                 ),
+//                 rightTitles: AxisTitles(
+//                   sideTitles: SideTitles(showTitles: false),
+//                 ),
+//                 topTitles: AxisTitles(
+//                   sideTitles: SideTitles(showTitles: false),
+//                 ),
+//               ),
+//               borderData: FlBorderData(show: false),
+//               gridData: FlGridData(show: true),
+//             ),
+//           ),
+//         ),
+//         SizedBox(height: 4),
+//         Row(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             _buildLegend(color1, 'Ngày'),
+//             SizedBox(width: 16),
+//             _buildLegend(color2, 'Đêm'),
+//           ],
+//         ),
+//         SizedBox(height: 16),
 //       ],
 //     );
 //   }
 
-//   Widget _buildFilterButton(String text, IconData icon, Color color) {
-//     return ElevatedButton.icon(
-//       onPressed: () {},
-//       icon: Icon(icon, color: Colors.white),
-//       label: Text(text, style: const TextStyle(color: Colors.white)),
-//       style: ElevatedButton.styleFrom(
-//         backgroundColor: color,
-//         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-//       ),
-//     );
-//   }
+//   // Dữ liệu mẫu
+//   List<List<double>> _getData1() => [
+//     [
+//       155,
+//       152,
+//       158,
+//       160,
+//       165,
+//       162,
+//       170,
+//       155,
+//       152,
+//       158,
+//       160,
+//       165,
+//       162,
+//       170,
+//     ], // Ngày
+//     [
+//       145,
+//       142,
+//       148,
+//       150,
+//       155,
+//       152,
+//       158,
+//       145,
+//       142,
+//       148,
+//       150,
+//       155,
+//       152,
+//       158,
+//     ], // Đêm
+//   ];
 
-//   Widget _buildHistoryList() {
-//     return ListView.builder(
-//       padding: const EdgeInsets.symmetric(horizontal: 16),
-//       itemCount: data.length,
-//       itemBuilder: (context, index) {
-//         return Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(
-//               data[index]["date"],
-//               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//             ),
-//             const SizedBox(height: 5),
-//             ...data[index]["records"]
-//                 .map<Widget>((record) => _buildHistoryCard(record))
-//                 .toList(),
-//             const SizedBox(height: 10),
-//           ],
-//         );
-//       },
-//     );
-//   }
+//   List<List<double>> _getData2() => [
+//     [90, 88, 92, 91, 95, 93, 97, 90, 88, 92, 91, 95, 93, 97],
+//     [85, 82, 86, 84, 88, 87, 90, 85, 82, 86, 84, 88, 87, 90],
+//   ];
 
-//   Widget _buildHistoryCard(Map<String, dynamic> record) {
-//     return Card(
-//       elevation: 3,
-//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-//       child: Padding(
-//         padding: const EdgeInsets.all(12),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             Row(
-//               children: [
-//                 Container(
-//                   width: 8,
-//                   height: 40,
-//                   decoration: BoxDecoration(
-//                     color: record["color"],
-//                     borderRadius: BorderRadius.circular(5),
-//                   ),
-//                 ),
-//                 const SizedBox(width: 10),
-//                 Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text(
-//                       record["type"],
-//                       style: const TextStyle(fontWeight: FontWeight.bold),
-//                     ),
-//                     Text(record["value"]),
-//                   ],
-//                 ),
-//               ],
-//             ),
-//             Text(
-//               record["time"],
-//               style: const TextStyle(fontWeight: FontWeight.bold),
-//             ),
-//           ],
-//         ),
-//       ),
+//   List<List<double>> _getData3() => [
+//     [97, 98, 97, 96, 98, 99, 98, 97, 98, 97, 96, 98, 99, 98],
+//     [95, 96, 95, 94, 96, 97, 96, 95, 96, 95, 94, 96, 97, 96],
+//   ];
+
+//   List<List<double>> _getData4() => [
+//     [
+//       36.5,
+//       36.6,
+//       36.7,
+//       36.6,
+//       36.8,
+//       36.9,
+//       37.0,
+//       36.5,
+//       36.6,
+//       36.7,
+//       36.6,
+//       36.8,
+//       36.9,
+//       37.0,
+//     ],
+//     [
+//       36.3,
+//       36.4,
+//       36.5,
+//       36.5,
+//       36.6,
+//       36.7,
+//       36.8,
+//       36.3,
+//       36.4,
+//       36.5,
+//       36.5,
+//       36.6,
+//       36.7,
+//       36.8,
+//     ],
+//   ];
+
+//   List<List<double>> _getData5() => [
+//     [72, 74, 75, 78, 76, 80, 82, 72, 74, 75, 78, 76, 80, 82],
+//     [68, 70, 71, 72, 73, 74, 76, 68, 70, 71, 72, 73, 74, 76],
+//   ];
+
+//   List<List<double>> _getData6() => [
+//     [
+//       7.35,
+//       7.36,
+//       7.37,
+//       7.38,
+//       7.36,
+//       7.37,
+//       7.38,
+//       7.35,
+//       7.36,
+//       7.37,
+//       7.38,
+//       7.36,
+//       7.37,
+//       7.38,
+//     ],
+//     [
+//       7.34,
+//       7.35,
+//       7.36,
+//       7.35,
+//       7.34,
+//       7.36,
+//       7.35,
+//       7.34,
+//       7.35,
+//       7.36,
+//       7.35,
+//       7.34,
+//       7.36,
+//       7.35,
+//     ],
+//   ];
+
+//   Widget _buildLegend(Color color, String text) {
+//     return Row(
+//       children: [
+//         Container(width: 12, height: 12, color: color),
+//         SizedBox(width: 4),
+//         Text(text, style: TextStyle(fontSize: 12)),
+//       ],
 //     );
 //   }
 // }
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class HomeHistory extends StatelessWidget {
+class HomeHistory extends StatefulWidget {
+  @override
+  State<HomeHistory> createState() => _HomeHistoryState();
+}
+
+class _HomeHistoryState extends State<HomeHistory> {
+  int? selectedDayIndex; // null = hiển thị tất cả
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Biểu đồ thay đổi huyết áp tâm thu')),
-      body: Padding(
+      //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      appBar: AppBar(title: Text('Lịch sử các chỉ số sức khỏe')),
+
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Expanded(
-              child: BarChart(
-                BarChartData(
-                  barGroups: _getBarGroups(),
-                  titlesData: FlTitlesData(
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 40,
-                        getTitlesWidget: (value, meta) {
-                          return Text(
-                            '${value.toInt()}',
-                            style: TextStyle(fontSize: 12),
-                          );
-                        },
-                      ),
-                    ),
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        getTitlesWidget: (value, meta) {
-                          return Text(
-                            '${value.toInt()}',
-                            style: TextStyle(fontSize: 12),
-                          );
-                        },
-                      ),
-                    ),
-                    rightTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    topTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                  ),
-                  borderData: FlBorderData(show: false),
-                  gridData: FlGridData(show: true),
-                ),
-              ),
+            _buildChart(
+              'Huyết áp tâm thu',
+              Colors.red,
+              Colors.blue,
+              _getData1(),
             ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildLegend(Colors.red, 'Ngày'),
-                SizedBox(width: 20),
-                _buildLegend(Colors.blue, 'Đêm'),
-              ],
+            _buildChart(
+              'Huyết áp tâm trương',
+              Colors.red,
+              Colors.blue,
+              _getData2(),
             ),
+            _buildChart('SpO2', Colors.red, Colors.blue, _getData3()),
+            _buildChart('Nhiệt độ (°C)', Colors.red, Colors.blue, _getData4()),
+            _buildChart('Mạch đập (bpm)', Colors.red, Colors.blue, _getData5()),
+            _buildChart('pH', Colors.red, Colors.blue, _getData6()),
+
+            SizedBox(height: 20),
+            _buildDayButtons(), // Nút chọn ngày ở cuối
           ],
         ),
       ),
     );
   }
 
-  List<BarChartGroupData> _getBarGroups() {
-    List<double> ngay = [
-      155,
-      152,
-      158,
-      160,
-      165,
-      162,
-      170,
-      160,
-      163,
-      172,
-      165,
-      160,
-      164,
-      168,
-    ];
-    List<double> dem = [
-      145,
-      142,
-      148,
-      150,
-      155,
-      152,
-      158,
-      150,
-      153,
-      160,
-      155,
-      150,
-      154,
-      158,
-    ];
+  Widget _buildChart(
+    String title,
+    Color color1,
+    Color color2,
+    List<List<double>> data,
+  ) {
+    List<double> ngay = data[0];
+    List<double> dem = data[1];
 
-    return List.generate(ngay.length, (index) {
-      return BarChartGroupData(
-        x: index + 1,
-        barRods: [
-          BarChartRodData(toY: ngay[index], color: Colors.red, width: 10),
-          BarChartRodData(toY: dem[index], color: Colors.blue, width: 10),
-        ],
-      );
-    });
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
+        SizedBox(height: 8),
+        Container(
+          height: 150,
+          child: BarChart(
+            BarChartData(
+              barGroups: _buildBarGroups(ngay, dem),
+              titlesData: FlTitlesData(
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 30,
+                    getTitlesWidget:
+                        (value, meta) => Text(
+                          '${value.toInt()}',
+                          style: TextStyle(fontSize: 10),
+                        ),
+                  ),
+                ),
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    getTitlesWidget:
+                        (value, meta) => Text(
+                          '${value.toInt()}',
+                          style: TextStyle(fontSize: 10),
+                        ),
+                  ),
+                ),
+                rightTitles: AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+                topTitles: AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+              ),
+              borderData: FlBorderData(show: false),
+              gridData: FlGridData(show: true),
+            ),
+          ),
+        ),
+        SizedBox(height: 4),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildLegend(color1, 'Ngày'),
+            SizedBox(width: 16),
+            _buildLegend(color2, 'Đêm'),
+          ],
+        ),
+        SizedBox(height: 16),
+      ],
+    );
   }
+
+  List<BarChartGroupData> _buildBarGroups(List<double> ngay, List<double> dem) {
+    List<BarChartGroupData> groups = [];
+
+    for (int i = 0; i < ngay.length; i++) {
+      if (selectedDayIndex == null || selectedDayIndex == i) {
+        groups.add(
+          BarChartGroupData(
+            x: i + 1,
+            barRods: [
+              BarChartRodData(toY: ngay[i], color: Colors.red, width: 8),
+              BarChartRodData(toY: dem[i], color: Colors.blue, width: 8),
+            ],
+          ),
+        );
+      }
+    }
+
+    return groups;
+  }
+
+  Widget _buildDayButtons() {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      alignment: WrapAlignment.center,
+      children: [
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor:
+                selectedDayIndex == null ? Colors.blue : Colors.grey[300],
+            foregroundColor:
+                selectedDayIndex == null ? Colors.white : Colors.black,
+          ),
+          onPressed: () {
+            setState(() {
+              selectedDayIndex = null;
+            });
+          },
+          child: Text('ALL'),
+        ),
+        ...List.generate(14, (index) {
+          final isSelected = selectedDayIndex == index;
+          return ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: isSelected ? Colors.blue : Colors.grey[300],
+              foregroundColor: isSelected ? Colors.white : Colors.black,
+            ),
+            onPressed: () {
+              setState(() {
+                selectedDayIndex = selectedDayIndex == index ? null : index;
+              });
+            },
+            child: Text('${index + 1}'),
+          );
+        }),
+      ],
+    );
+  }
+
+  // Dữ liệu mẫu
+  List<List<double>> _getData1() => [
+    [155, 152, 158, 160, 165, 162, 170, 155, 152, 158, 160, 165, 162, 170],
+    [145, 142, 148, 150, 155, 152, 158, 145, 142, 148, 150, 155, 152, 158],
+  ];
+
+  List<List<double>> _getData2() => [
+    [90, 88, 92, 91, 95, 93, 97, 90, 88, 92, 91, 95, 93, 97],
+    [85, 82, 86, 84, 88, 87, 90, 85, 82, 86, 84, 88, 87, 90],
+  ];
+
+  List<List<double>> _getData3() => [
+    [97, 98, 97, 96, 98, 99, 98, 97, 98, 97, 96, 98, 99, 98],
+    [95, 96, 95, 94, 96, 97, 96, 95, 96, 95, 94, 96, 97, 96],
+  ];
+
+  List<List<double>> _getData4() => [
+    [
+      36.5,
+      36.6,
+      36.7,
+      36.6,
+      36.8,
+      36.9,
+      37.0,
+      36.5,
+      36.6,
+      36.7,
+      36.6,
+      36.8,
+      36.9,
+      37.0,
+    ],
+    [
+      36.3,
+      36.4,
+      36.5,
+      36.5,
+      36.6,
+      36.7,
+      36.8,
+      36.3,
+      36.4,
+      36.5,
+      36.5,
+      36.6,
+      36.7,
+      36.8,
+    ],
+  ];
+
+  List<List<double>> _getData5() => [
+    [72, 74, 75, 78, 76, 80, 82, 72, 74, 75, 78, 76, 80, 82],
+    [68, 70, 71, 72, 73, 74, 76, 68, 70, 71, 72, 73, 74, 76],
+  ];
+
+  List<List<double>> _getData6() => [
+    [
+      7.35,
+      7.36,
+      7.37,
+      7.38,
+      7.36,
+      7.37,
+      7.38,
+      7.35,
+      7.36,
+      7.37,
+      7.38,
+      7.36,
+      7.37,
+      7.38,
+    ],
+    [
+      7.34,
+      7.35,
+      7.36,
+      7.35,
+      7.34,
+      7.36,
+      7.35,
+      7.34,
+      7.35,
+      7.36,
+      7.35,
+      7.34,
+      7.36,
+      7.35,
+    ],
+  ];
 
   Widget _buildLegend(Color color, String text) {
     return Row(
       children: [
-        Container(width: 16, height: 16, color: color),
+        Container(width: 12, height: 12, color: color),
         SizedBox(width: 4),
-        Text(text, style: TextStyle(fontSize: 14)),
+        Text(text, style: TextStyle(fontSize: 12)),
       ],
     );
   }

@@ -1,23 +1,17 @@
 import 'package:assistantstroke/controler/profile_controller.dart';
 import 'package:flutter/material.dart';
-// Import ProfileController
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeProfile extends StatelessWidget {
+class HomeProfile extends StatefulWidget {
+  final VoidCallback onLogout;
+
+  HomeProfile({required this.onLogout});
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: UserInformationScreen(),
-    );
-  }
+  _HomeProfileState createState() => _HomeProfileState();
 }
 
-class UserInformationScreen extends StatefulWidget {
-  @override
-  _UserInformationScreenState createState() => _UserInformationScreenState();
-}
-
-class _UserInformationScreenState extends State<UserInformationScreen> {
+class _HomeProfileState extends State<HomeProfile> {
   String username = "Đang tải...";
   String email = "Đang tải...";
 
@@ -39,6 +33,12 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
         email = userData['email'] ?? "Không có email";
       });
     }
+  }
+
+  Future<void> _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    widget.onLogout(); // Gọi hàm logout từ HomeNavbar
   }
 
   final List<Map<String, dynamic>> menuItems = [
@@ -108,7 +108,11 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
       ),
       title: Text(item["text"]),
       trailing: const Icon(Icons.arrow_forward_ios, color: Colors.cyan),
-      onTap: () {},
+      onTap: () {
+        if (item["text"] == "Logout") {
+          _logout();
+        }
+      },
     );
   }
 }

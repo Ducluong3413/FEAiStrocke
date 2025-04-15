@@ -43,7 +43,8 @@ class LoginController {
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('token', token);
           await prefs.setInt('userId', userId);
-
+          print('🔑 Token: $token');
+          print('🆔 UserId: $userId');
           print('✅ Đăng nhập thành công, token đã được lưu');
 
           Navigator.pushReplacement(

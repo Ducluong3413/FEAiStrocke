@@ -1,4 +1,5 @@
 import 'package:assistantstroke/controler/login_controller.dart';
+import 'package:assistantstroke/page/forgot_password/forgot_password.dart';
 import 'package:flutter/material.dart';
 // import 'package:assistantstroke/controller/login_controller.dart'; // Import LoginController
 import 'package:assistantstroke/page/forget_password/home_forget_password.dart'; // Import Forget Password page
@@ -9,6 +10,7 @@ class HomeLogin extends StatefulWidget {
   @override
   _HomeLoginState createState() => _HomeLoginState();
 }
+
 class _HomeLoginState extends State<HomeLogin> {
   final TextEditingController Username = TextEditingController();
   final TextEditingController Password = TextEditingController();
@@ -87,7 +89,9 @@ class _HomeLoginState extends State<HomeLogin> {
                     });
                   },
                   child: Icon(
-                    _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    _isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                   ),
                 ),
                 hintText: "Nhập mật khẩu",
@@ -106,6 +110,10 @@ class _HomeLoginState extends State<HomeLogin> {
                 child: GestureDetector(
                   onTap: () {
                     // Chuyển đến trang quên mật khẩu
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ForgotPassword()),
+                    );
                   },
                   child: const Text(
                     "Quên mật khẩu?",
@@ -126,12 +134,13 @@ class _HomeLoginState extends State<HomeLogin> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: _isLoading
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text(
-                  "Đăng nhập",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
+                child:
+                    _isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                          "Đăng nhập",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
               ),
             ),
           ],

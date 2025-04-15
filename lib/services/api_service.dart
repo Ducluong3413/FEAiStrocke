@@ -52,12 +52,16 @@ class ApiEndpoints {
   static const String baseUrl = "http://localhost:5062/api"; //iphone
   // static const String baseUrl =
   //     "http://10.0.2.2:5062/api"; // Nếu chạy trên Android Emulator
+  static const String chatbot =
+      "http://localhost:5678/webhook/9f8e4a1a-3c19-48e1-ad90-f1efed1d7dce/chat"; //iphone
 
   // Auth
   static const String login = "$baseUrl/User/login";
   static const String register = "$baseUrl/User/register";
   static const String verifyOtp = "$baseUrl/User/verifyOtp";
   static const String profile = "$baseUrl/User/users";
+  static const String forgot = "$baseUrl/User/forgot-password";
+  static const String commit = "$baseUrl/User/reset-password";
   // User
   static const String getUserProfile = "$baseUrl/User/profile";
   static const String updateUserProfile = "$baseUrl/User/update";

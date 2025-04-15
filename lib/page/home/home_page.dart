@@ -1,12 +1,37 @@
 import 'package:assistantstroke/page/forget_password/home_forget_password.dart';
 import 'package:assistantstroke/page/login/home_login.dart';
+import 'package:assistantstroke/page/main_home/home_navbar.dart';
 // import 'package:assistantstroke/page/main_home/home_main_home.dart';
 
 import 'package:flutter/material.dart';
 import 'package:assistantstroke/page/home/widgets/home_stroke_icon.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    if (token != null && token.isNotEmpty) {
+      // Nếu token tồn tại, chuyển thẳng đến trang chính
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeNavbar()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
