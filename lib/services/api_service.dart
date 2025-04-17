@@ -50,10 +50,11 @@
 class ApiEndpoints {
   // static const String baseUrl = "http://localhost:5062/api";
   static const String baseUrl = "http://localhost:5062/api"; //iphone
+  // static const String baseUrl = "http://137.59.106.46:5000/api"; //iphone
   // static const String baseUrl =
   //     "http://10.0.2.2:5062/api"; // Nếu chạy trên Android Emulator
   static const String chatbot =
-      "http://localhost:5678/webhook/9f8e4a1a-3c19-48e1-ad90-f1efed1d7dce/chat"; //iphone
+      "https://workflow.makeai.vn/webhook/9f8e4a1a-3c19-48e1-ad90-f1efed1d7dce/chat"; //iphone
 
   // Auth
   static const String login = "$baseUrl/User/login";

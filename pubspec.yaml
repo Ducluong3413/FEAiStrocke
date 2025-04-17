@@ -51,6 +51,7 @@ dependencies:
   shared_preferences: ^2.0.6
   # google_maps_flutter: ^2.5.0
   flutter_radar_chart: ^0.2.1
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -108,3 +109,7 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
 
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon/logo.png"
