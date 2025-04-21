@@ -25,6 +25,12 @@ class _HomeHistoryState extends State<HomeHistory> {
       setState(() {
         data = fetchedData;
         isLoading = false;
+
+        if (data?.results != null) {
+          print('Dữ liệu đã tải thành công: ${data?.results}');
+        } else {
+          print('Không có dữ liệu nào.');
+        }
       });
     } catch (e) {
       print('Lỗi: $e');
@@ -162,6 +168,8 @@ class _HomeHistoryState extends State<HomeHistory> {
   }
 
   Widget _buildDayButtons() {
+    print(_getData1());
+
     return Wrap(
       spacing: 8,
       runSpacing: 8,
@@ -201,95 +209,83 @@ class _HomeHistoryState extends State<HomeHistory> {
   }
 
   // Dữ liệu mẫu
-  List<List<double>> _getData1() => [
-    [155, 152, 158, 160, 165, 162, 170, 155, 152, 158, 160, 165, 162, 170],
-    [145, 142, 148, 150, 155, 152, 158, 145, 142, 148, 150, 155, 152, 158],
-  ];
+  // List<List<double>> _getData1() => [
+  //   [155, 152, 158, 160, 165, 162, 170, 155, 152, 158, 160, 165, 162, 170],
+  //   [145, 142, 148, 150, 155, 152, 158, 145, 142, 148, 150, 155, 152, 158],
+  // ];
+  List<List<double>> _getData1() {
+    if (data == null) return [[], []];
+    // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
+    final ngay =
+        data?.results?.map((e) => e.averageSystolicPressure).toList() ?? [];
 
-  List<List<double>> _getData2() => [
-    [90, 88, 92, 91, 95, 93, 97, 90, 88, 92, 91, 95, 93, 97],
-    [85, 82, 86, 84, 88, 87, 90, 85, 82, 86, 84, 88, 87, 90],
-  ];
+    final dem =
+        data?.results?.map((e) => e.averageSystolicPressureNight).toList() ??
+        [];
 
-  List<List<double>> _getData3() => [
-    [97, 98, 97, 96, 98, 99, 98, 97, 98, 97, 96, 98, 99, 98],
-    [95, 96, 95, 94, 96, 97, 96, 95, 96, 95, 94, 96, 97, 96],
-  ];
+    // nếu bạn chưa có dữ liệu đêm, có thể thay sau
+    return [ngay, dem];
+  }
 
-  List<List<double>> _getData4() => [
-    [
-      36.5,
-      36.6,
-      36.7,
-      36.6,
-      36.8,
-      36.9,
-      37.0,
-      36.5,
-      36.6,
-      36.7,
-      36.6,
-      36.8,
-      36.9,
-      37.0,
-    ],
-    [
-      36.3,
-      36.4,
-      36.5,
-      36.5,
-      36.6,
-      36.7,
-      36.8,
-      36.3,
-      36.4,
-      36.5,
-      36.5,
-      36.6,
-      36.7,
-      36.8,
-    ],
-  ];
+  List<List<double>> _getData2() {
+    if (data == null) return [[], []];
+    // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
+    final ngay =
+        data?.results?.map((e) => e.averageDiastolicPressure).toList() ?? [];
 
-  List<List<double>> _getData5() => [
-    [72, 74, 75, 78, 76, 80, 82, 72, 74, 75, 78, 76, 80, 82],
-    [68, 70, 71, 72, 73, 74, 76, 68, 70, 71, 72, 73, 74, 76],
-  ];
+    final dem =
+        data?.results?.map((e) => e.averageDiastolicPressureNight).toList() ??
+        [];
 
-  List<List<double>> _getData6() => [
-    [
-      7.35,
-      7.36,
-      7.37,
-      7.38,
-      7.36,
-      7.37,
-      7.38,
-      7.35,
-      7.36,
-      7.37,
-      7.38,
-      7.36,
-      7.37,
-      7.38,
-    ],
-    [
-      7.34,
-      7.35,
-      7.36,
-      7.35,
-      7.34,
-      7.36,
-      7.35,
-      7.34,
-      7.35,
-      7.36,
-      7.35,
-      7.34,
-      7.36,
-      7.35,
-    ],
-  ];
+    // nếu bạn chưa có dữ liệu đêm, có thể thay sau
+    return [ngay, dem];
+  }
+
+  List<List<double>> _getData3() {
+    if (data == null) return [[], []];
+    // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
+    final ngay = data?.results?.map((e) => e.averageSpO2).toList() ?? [];
+
+    final dem = data?.results?.map((e) => e.averageSpO2Night).toList() ?? [];
+
+    // nếu bạn chưa có dữ liệu đêm, có thể thay sau
+    return [ngay, dem];
+  }
+
+  List<List<double>> _getData4() {
+    if (data == null) return [[], []];
+    // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
+    final ngay = data?.results?.map((e) => e.averageTemperature).toList() ?? [];
+
+    final dem =
+        data?.results?.map((e) => e.averageTemperatureNight).toList() ?? [];
+
+    // nếu bạn chưa có dữ liệu đêm, có thể thay sau
+    return [ngay, dem];
+  }
+
+  List<List<double>> _getData5() {
+    if (data == null) return [[], []];
+    // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
+    final ngay = data?.results?.map((e) => e.averageHeartRate).toList() ?? [];
+
+    final dem =
+        data?.results?.map((e) => e.averageHeartRateNight).toList() ?? [];
+
+    // nếu bạn chưa có dữ liệu đêm, có thể thay sau
+    return [ngay, dem];
+  }
+
+  List<List<double>> _getData6() {
+    if (data == null) return [[], []];
+    // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
+    final ngay = data?.results?.map((e) => e.averagePH).toList() ?? [];
+
+    final dem = data?.results?.map((e) => e.averagePHNight).toList() ?? [];
+
+    // nếu bạn chưa có dữ liệu đêm, có thể thay sau
+    return [ngay, dem];
+  }
 
   Widget _buildLegend(Color color, String text) {
     return Row(

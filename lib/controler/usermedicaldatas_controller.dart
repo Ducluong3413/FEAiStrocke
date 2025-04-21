@@ -1,16 +1,15 @@
 import 'dart:convert';
 import 'package:assistantstroke/model/UserMedicalDataResponse.dart';
+import 'package:assistantstroke/services/api_service.dart';
 import 'package:http/http.dart' as http;
 
 class UserMedicalDataController {
   Future<UserMedicalDataResponse> fetchUserMedicalData() async {
-    final url = Uri.parse(
-      'http://localhost:5062/api/UserMedicalDatas/average-daily-night-last-14-days/2',
-    );
+    final String url = ApiEndpoints.averageAll14Day + '2';
 
-    final response = await http.get(url);
-    print('Status: ${response.statusCode}');
-    print('Body: ${response.body}');
+    final response = await http.get(Uri.parse(url));
+    // print('Status: ${response.statusCode}');
+    // print('Body: ${response.body}');
 
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
