@@ -63,9 +63,14 @@ class ApiEndpoints {
   static const String profile = "$baseUrl/User/users";
   static const String forgot = "$baseUrl/User/forgot-password";
   static const String commit = "$baseUrl/User/reset-password";
+  static const String change = "$baseUrl/User/change-password";
   // User
   static const String getUserProfile = "$baseUrl/User/profile";
   static const String updateUserProfile = "$baseUrl/User/update";
+  static const String indicator =
+      "$baseUrl/Indicators/get-percent-indicator-is-true";
+  static const String averageAll14Day =
+      "$baseUrl/UserMedicalDatas/average-daily-night-last-14-days/2";
 
   // Example thêm endpoint khác
   static const String getPosts = "$baseUrl/Posts";
