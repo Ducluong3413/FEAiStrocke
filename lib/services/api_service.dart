@@ -71,7 +71,7 @@ class ApiEndpoints {
       "$baseUrl/Indicators/get-percent-indicator-is-true";
   static const String averageAll14Day =
       "$baseUrl/UserMedicalDatas/average-daily-night-last-14-days/";
-
+  static const String symptom = "$baseUrl/Indicators/add-clinical-indicator";
   // Example thêm endpoint khác
   static const String getPosts = "$baseUrl/Posts";
 }

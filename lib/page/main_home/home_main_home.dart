@@ -1,4 +1,5 @@
 import 'package:assistantstroke/chatbox.dart';
+import 'package:assistantstroke/page/main_home/SymptomFormPage/SymptomFormPage.dart';
 import 'package:assistantstroke/page/main_home/home_history/home_history.dart';
 import 'package:assistantstroke/page/main_home/home_map/home_map.dart';
 import 'package:assistantstroke/page/main_home/home_profile/home_profile.dart';
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       HomeMap(),
       HomeHistory(),
       ChatApp(),
+      SymptomFormPage(),
       HomeProfile(onLogout: widget.onLogout), // Truyền onLogout vào HomeProfile
     ];
   }
@@ -51,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.map), label: "Bản đồ"),
           BottomNavigationBarItem(icon: Icon(Icons.receipt), label: "Lượng Đồ"),
           BottomNavigationBarItem(icon: Icon(Icons.message), label: "Chatbot"),
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: "Biểu Hiện"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Hồ sơ"),
         ],
       ),
