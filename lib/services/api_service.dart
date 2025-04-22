@@ -67,11 +67,19 @@ class ApiEndpoints {
   // User
   static const String getUserProfile = "$baseUrl/User/profile";
   static const String updateUserProfile = "$baseUrl/User/update";
-  static const String indicator =
-      "$baseUrl/Indicators/get-percent-indicator-is-true";
+
   static const String averageAll14Day =
       "$baseUrl/UserMedicalDatas/average-daily-night-last-14-days/";
+  //Indicator
+  static const String indicator =
+      "$baseUrl/Indicators/get-percent-indicator-is-true";
   static const String symptom = "$baseUrl/Indicators/add-clinical-indicator";
+  static const String create_invitation = "$baseUrl/Invition/create-invitation";
+  static const String use_invitation = "$baseUrl/Invition/use-invitation";
+  static const String get_elationship = "$baseUrl/Invition/get-relationship";
+  static const String delete_relationship =
+      "$baseUrl/Invition/delete-relationship";
+
   // Example thêm endpoint khác
   static const String getPosts = "$baseUrl/Posts";
 }
