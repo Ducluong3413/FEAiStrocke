@@ -64,6 +64,7 @@ class ApiEndpoints {
   static const String forgot = "$baseUrl/User/forgot-password";
   static const String commit = "$baseUrl/User/reset-password";
   static const String change = "$baseUrl/User/change-password";
+  static const String update_basic_info = "$baseUrl/User/update-basic-info";
   // User
   static const String getUserProfile = "$baseUrl/User/profile";
   static const String updateUserProfile = "$baseUrl/User/update";
@@ -79,6 +80,9 @@ class ApiEndpoints {
   static const String get_elationship = "$baseUrl/Invition/get-relationship";
   static const String delete_relationship =
       "$baseUrl/Invition/delete-relationship";
+  //device
+  static const String get_devices = "$baseUrl/Devices/get-devices";
+  static const String delete_devices = "$baseUrl/Devices/delete-devices";
 
   // Example thêm endpoint khác
   static const String getPosts = "$baseUrl/Posts";

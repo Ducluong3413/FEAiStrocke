@@ -96,7 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Stroke Assistant')),
+      appBar: AppBar(title: Text('Chat với Stroke')),
       body: Column(
         children: [
           Expanded(

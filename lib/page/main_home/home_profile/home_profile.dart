@@ -1,5 +1,6 @@
 import 'package:assistantstroke/controler/profile_controller.dart';
 import 'package:assistantstroke/page/Invitation/home.dart';
+import 'package:assistantstroke/page/devices/home.dart';
 import 'package:assistantstroke/page/home_profile_detail/change_password.dart';
 import 'package:assistantstroke/page/home_profile_detail/editprofilepage.dart';
 import 'package:assistantstroke/page/home_profile_detail/settings.dart';
@@ -49,6 +50,7 @@ class _HomeProfileState extends State<HomeProfile> {
     {"icon": Icons.person, "text": "Thông Tin Cá Nhân"},
     {"icon": Icons.favorite, "text": "Người Nhà"},
     {"icon": Icons.lock, "text": "Quản Lý Mật Khẩu"},
+    {"icon": Icons.device_thermostat, "text": "Thiết Bị"},
     {"icon": Icons.settings, "text": "Cài Đặt"},
     {"icon": Icons.help, "text": "Tợ Giúp "},
     {"icon": Icons.logout, "text": "Đăng Xuất"},
@@ -176,6 +178,13 @@ class _HomeProfileState extends State<HomeProfile> {
               MaterialPageRoute(builder: (context) => ChangePassword()),
             );
             break;
+          case "Thiết Bị":
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DevicesPage()),
+            );
+            break;
+
           case "Cài Đặt":
             Navigator.push(
               context,

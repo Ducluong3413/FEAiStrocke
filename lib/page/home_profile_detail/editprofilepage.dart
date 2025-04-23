@@ -1,128 +1,183 @@
+import 'package:assistantstroke/controler/usercontroller.dart';
 import 'package:flutter/material.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
 
   @override
-  _EditProfilePageState createState() => _EditProfilePageState();
+  State<EditProfilePage> createState() => _EditProfilePageState();
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final _formKey = GlobalKey<FormState>();
+  final _controller = UserController();
 
-  // Các controller cho từng trường
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  String _gender = 'Nam';
 
-  String _selectedGender = 'Male'; // Mặc định
+  bool _loading = true;
 
   @override
   void initState() {
     super.initState();
-    // TODO: Load dữ liệu người dùng từ API nếu cần
-    _nameController.text = 'John Doe';
-    _dobController.text = '1990-01-01';
-    _phoneController.text = '0123456789';
-    _emailController.text = 'john.doe@example.com';
-    _selectedGender = 'Male';
+    _loadUser();
   }
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _dobController.dispose();
-    _phoneController.dispose();
-    _emailController.dispose();
-    super.dispose();
-  }
-
-  void _saveProfile() {
-    if (_formKey.currentState!.validate()) {
-      // TODO: Gửi dữ liệu cập nhật về server
-      print('✅ Saving...');
-      print('Name: ${_nameController.text}');
-      print('DOB: ${_dobController.text}');
-      print('Gender: $_selectedGender');
-      print('Phone: ${_phoneController.text}');
-      print('Email: ${_emailController.text}');
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Thông tin đã được lưu!')));
+  Future<void> _loadUser() async {
+    try {
+      User user = await _controller.fetchUser();
+      _nameController.text = user.patientName;
+      _dobController.text = user.dateOfBirth; // Giữ nguyên thời gian đầy đủ
+      _gender = user.gender ? 'Nam' : 'Nữ';
+    } catch (e) {
+      print('Lỗi khi tải user: $e');
+    } finally {
+      setState(() {
+        _loading = false;
+      });
     }
+  }
+
+  Future<void> _save() async {
+    final user = User(
+      patientName: _nameController.text,
+      dateOfBirth:
+          _dobController.text, // Lưu ngày sinh đầy đủ, bao gồm thời gian
+      gender: _gender == 'Nam',
+    );
+
+    final success = await _controller.updateUser(user);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(success ? 'Cập nhật thành công' : 'Cập nhật thất bại'),
+      ),
+    );
+  }
+
+  Widget buildInputField(
+    String label,
+    String hint,
+    IconData icon,
+    TextEditingController controller,
+  ) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hint,
+        prefixIcon: Icon(icon),
+        filled: true,
+        fillColor: Colors.blueGrey[50],
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
+      ),
+    );
+  }
+
+  Widget buildInputDate(
+    String label,
+    String hint,
+    IconData icon,
+    TextEditingController controller,
+  ) {
+    return TextField(
+      controller: controller,
+      readOnly: true,
+      onTap: () async {
+        DateTime? pickedDate = await showDatePicker(
+          context: context,
+          initialDate: DateTime.tryParse(controller.text) ?? DateTime.now(),
+          firstDate: DateTime(1900),
+          lastDate: DateTime.now(),
+        );
+        if (pickedDate != null) {
+          controller.text =
+              "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}T${pickedDate.hour.toString().padLeft(2, '0')}:${pickedDate.minute.toString().padLeft(2, '0')}:${pickedDate.second.toString().padLeft(2, '0')}.000Z";
+        }
+      },
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hint,
+        prefixIcon: Icon(icon),
+        filled: true,
+        fillColor: Colors.blueGrey[50],
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_loading) return const Center(child: CircularProgressIndicator());
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Edit Profile'),
-        backgroundColor: Colors.cyan,
-        foregroundColor: Colors.white,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              _buildTextField(_nameController, 'Patient Name'),
-              _buildTextField(_dobController, 'Date of Birth (YYYY-MM-DD)'),
-              _buildGenderDropdown(),
-              _buildTextField(_phoneController, 'Phone'),
-              _buildTextField(_emailController, 'Email'),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _saveProfile,
-                child: const Text('Save'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.cyan,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  textStyle: const TextStyle(fontSize: 16),
+      appBar: AppBar(title: const Text('Chỉnh sửa hồ sơ')),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            buildInputField(
+              'Họ tên',
+              'Nhập họ tên',
+              Icons.person,
+              _nameController,
+            ),
+            const SizedBox(height: 20),
+            buildInputDate(
+              'Ngày sinh',
+              'YYYY-MM-DDTHH:mm:ss.SSSZ',
+              Icons.calendar_today,
+              _dobController,
+            ),
+            const SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              value: _gender,
+              decoration: InputDecoration(
+                labelText: 'Giới tính',
+                prefixIcon: const Icon(Icons.wc),
+                filled: true,
+                fillColor: Colors.blueGrey[50],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none,
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextField(TextEditingController controller, String label) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          border: OutlineInputBorder(),
-        ),
-        validator:
-            (value) =>
-                value == null || value.isEmpty ? 'Vui lòng nhập $label' : null,
-      ),
-    );
-  }
-
-  Widget _buildGenderDropdown() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: DropdownButtonFormField<String>(
-        value: _selectedGender,
-        items:
-            ['Male', 'Female', 'Other'].map((gender) {
-              return DropdownMenuItem(value: gender, child: Text(gender));
-            }).toList(),
-        onChanged: (value) {
-          setState(() {
-            _selectedGender = value!;
-          });
-        },
-        decoration: InputDecoration(
-          labelText: 'Gender',
-          border: OutlineInputBorder(),
+              items:
+                  ['Nam', 'Nữ']
+                      .map((g) => DropdownMenuItem(value: g, child: Text(g)))
+                      .toList(),
+              onChanged: (value) {
+                setState(() {
+                  _gender = value!;
+                });
+              },
+            ),
+            const SizedBox(height: 30),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton.icon(
+                onPressed: _save,
+                icon: const Icon(Icons.save),
+                label: const Text(
+                  'Lưu thông tin',
+                  style: TextStyle(fontSize: 18),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 24, 188, 203),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
