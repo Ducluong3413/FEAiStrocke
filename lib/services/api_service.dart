@@ -82,7 +82,7 @@ class ApiEndpoints {
       "$baseUrl/Invition/delete-relationship";
   //device
   static const String get_devices = "$baseUrl/Devices/get-devices";
-  static const String delete_devices = "$baseUrl/Devices/delete-devices";
+  static const String delete_devices = "$baseUrl/Devices/delete-device";
 
   // Example thêm endpoint khác
   static const String getPosts = "$baseUrl/Posts";

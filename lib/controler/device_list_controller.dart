@@ -47,9 +47,11 @@ class DeviceController {
 
   Future<bool> deleteDevice(int deviceId) async {
     final baseUrl = ApiEndpoints.delete_devices;
+    print(deviceId);
 
     final url = Uri.parse('$baseUrl/$deviceId');
     final res = await http.delete(url);
+    print(res.statusCode);
     return res.statusCode == 200;
   }
 }
