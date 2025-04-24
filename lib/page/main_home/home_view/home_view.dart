@@ -430,6 +430,7 @@
 //     );
 //   }
 // }
+import 'package:assistantstroke/controler/device_list_controller.dart';
 import 'package:assistantstroke/controler/indicators_controller.dart';
 import 'package:assistantstroke/controler/usermedicaldatas_controller.dart';
 import 'package:assistantstroke/model/UserMedicalDataResponse.dart';
@@ -477,35 +478,50 @@ class _HomeViewState extends State<HomeView> {
   double? diastolicPressure;
 
   Future<void> _loadData() async {
+    final deviceController = DeviceController();
+    final devices = await deviceController.getDevices();
     final controller = UserMedicalDataController();
-    try {
-      final fetchedData = await controller.fetchUserMedicalData();
-      setState(() {
-        data = fetchedData;
-        isLoading = false;
+    if (devices.isNotEmpty) {
+      final deviceId =
+          devices.first.deviceId; // hoặc chọn thiết bị khác theo logic bạn muốn
+      final medicalController = UserMedicalDataController();
 
-        if (data?.dataPercent != null) {
-          // Lưu từng giá trị vào các biến riêng biệt
-          temperature = data!.dataPercent!['temperature'];
-          spO2 = data!.dataPercent!['spO2'];
-          heartRate = data!.dataPercent!['heartRate'];
-          bloodPh = data!.dataPercent!['bloodPh'];
-          systolicPressure = data!.dataPercent!['systolicPressure'];
-          diastolicPressure = data!.dataPercent!['diastolicPressure'];
+      // dùng data tiếp theo...
 
-          // Assign values to a list or process them as needed
-          final radarValues = [
-            temperature,
-            spO2,
-            heartRate,
-            bloodPh,
-            systolicPressure,
-            diastolicPressure,
-          ];
-        }
-      });
-    } catch (e) {
-      print('Lỗi: $e');
+      try {
+        final fetchedData = await controller.fetchUserMedicalData(deviceId);
+        setState(() {
+          data = fetchedData;
+          isLoading = false;
+
+          if (data?.dataPercent != null) {
+            // Lưu từng giá trị vào các biến riêng biệt
+            temperature = data!.dataPercent!['temperature'];
+            spO2 = data!.dataPercent!['spO2'];
+            heartRate = data!.dataPercent!['heartRate'];
+            bloodPh = data!.dataPercent!['bloodPh'];
+            systolicPressure = data!.dataPercent!['systolicPressure'];
+            diastolicPressure = data!.dataPercent!['diastolicPressure'];
+
+            // Assign values to a list or process them as needed
+            final radarValues = [
+              temperature,
+              spO2,
+              heartRate,
+              bloodPh,
+              systolicPressure,
+              diastolicPressure,
+            ];
+          }
+        });
+      } catch (e) {
+        print('Lỗi: $e');
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } else {
+      print('Không có thiết bị nào được tìm thấy.');
       setState(() {
         isLoading = false;
       });

@@ -1,3 +1,4 @@
+import 'package:assistantstroke/controler/device_list_controller.dart';
 import 'package:assistantstroke/controler/usermedicaldatas_controller.dart';
 import 'package:assistantstroke/model/UserMedicalDataResponse.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -19,24 +20,39 @@ class _HomeHistoryState extends State<HomeHistory> {
   }
 
   Future<void> _loadData() async {
+    final deviceController = DeviceController();
+    final devices = await deviceController.getDevices();
     final controller = UserMedicalDataController();
-    try {
-      final fetchedData = await controller.fetchUserMedicalData();
-      setState(() {
-        data = fetchedData;
-        isLoading = false;
+    if (devices.isNotEmpty) {
+      final deviceId =
+          devices.first.deviceId; // hoặc chọn thiết bị khác theo logic bạn muốn
+      final medicalController = UserMedicalDataController();
 
-        if (data?.results != null) {
-          print('Dữ liệu đã tải thành công: ${data?.results}');
-        } else {
-          print('Không có dữ liệu nào.');
-        }
-      });
-    } catch (e) {
-      print('Lỗi: $e');
+      // dùng data tiếp theo...
+
+      try {
+        final fetchedData = await controller.fetchUserMedicalData(deviceId);
+        setState(() {
+          data = fetchedData;
+          isLoading = false;
+
+          if (data?.results != null) {
+            print('Dữ liệu đã tải thành công: ${data?.results}');
+          } else {
+            print('Không có dữ liệu nào.');
+          }
+        });
+      } catch (e) {
+        print('Lỗi: $e');
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } else {
       setState(() {
         isLoading = false;
       });
+      print('Không có thiết bị nào.');
     }
   }
 

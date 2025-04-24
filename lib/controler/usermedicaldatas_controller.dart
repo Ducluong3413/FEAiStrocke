@@ -4,8 +4,8 @@ import 'package:assistantstroke/services/api_service.dart';
 import 'package:http/http.dart' as http;
 
 class UserMedicalDataController {
-  Future<UserMedicalDataResponse> fetchUserMedicalData() async {
-    final String url = ApiEndpoints.averageAll14Day + '2';
+  Future<UserMedicalDataResponse> fetchUserMedicalData(int deviceId) async {
+    final String url = '${ApiEndpoints.averageAll14Day}$deviceId';
 
     final response = await http.get(Uri.parse(url));
     // print('Status: ${response.statusCode}');
