@@ -83,31 +83,56 @@ class _EditProfilePageState extends State<EditProfilePage> {
     IconData icon,
     TextEditingController controller,
   ) {
-    return TextField(
-      controller: controller,
-      readOnly: true,
-      onTap: () async {
-        DateTime? pickedDate = await showDatePicker(
-          context: context,
-          initialDate: DateTime.tryParse(controller.text) ?? DateTime.now(),
-          firstDate: DateTime(1900),
-          lastDate: DateTime.now(),
-        );
-        if (pickedDate != null) {
-          controller.text =
-              "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}T${pickedDate.hour.toString().padLeft(2, '0')}:${pickedDate.minute.toString().padLeft(2, '0')}:${pickedDate.second.toString().padLeft(2, '0')}.000Z";
-        }
-      },
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        prefixIcon: Icon(icon),
-        filled: true,
-        fillColor: Colors.blueGrey[50],
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
-        ),
+    // return TextField(
+    //   controller: controller,
+    //   readOnly: true,
+    //   onTap: () async {
+    //     DateTime? pickedDate = await showDatePicker(
+    //       context: context,
+    //       initialDate: DateTime.tryParse(controller.text) ?? DateTime.now(),
+    //       firstDate: DateTime(1900),
+    //       lastDate: DateTime.now(),
+    //     );
+    //     if (pickedDate != null) {
+    //       controller.text =
+    //           "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}T${pickedDate.hour.toString().padLeft(2, '0')}:${pickedDate.minute.toString().padLeft(2, '0')}:${pickedDate.second.toString().padLeft(2, '0')}.000Z";
+    //     }
+    //   },
+    //   decoration: InputDecoration(
+    //     labelText: label,
+    //     hintText: hint,
+    //     prefixIcon: Icon(icon),
+    //     filled: true,
+    //     fillColor: Colors.blueGrey[50],
+    //     border: OutlineInputBorder(
+    //       borderRadius: BorderRadius.circular(10),
+    //       borderSide: BorderSide.none,
+    //     ),
+    //   ),
+    // );
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label),
+          TextField(
+            controller: controller,
+            readOnly: true, // Chặn nhập tay, chỉ chọn qua DatePicker
+            onTap: () => _selectDate(context),
+            decoration: InputDecoration(
+              prefixIcon: Icon(icon),
+              hintText: "YYYY-MM-DD",
+              // hintText: hint,
+              filled: true,
+              fillColor: Colors.blueGrey[50],
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -131,7 +156,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             const SizedBox(height: 20),
             buildInputDate(
               'Ngày sinh',
-              'YYYY-MM-DDTHH:mm:ss.SSSZ',
+              'DD/MM/YYYY',
               Icons.calendar_today,
               _dobController,
             ),
@@ -181,5 +206,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ),
       ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+
+    if (pickedDate != null) {
+      // Format lại ngày thành yyyy-MM-dd
+      String formattedDate =
+          "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+      setState(() {
+        _dobController.text = formattedDate;
+      });
+    }
   }
 }

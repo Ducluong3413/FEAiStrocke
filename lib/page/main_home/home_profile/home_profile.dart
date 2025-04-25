@@ -51,8 +51,8 @@ class _HomeProfileState extends State<HomeProfile> {
     {"icon": Icons.favorite, "text": "Người Nhà"},
     {"icon": Icons.lock, "text": "Quản Lý Mật Khẩu"},
     {"icon": Icons.device_thermostat, "text": "Thiết Bị"},
-    {"icon": Icons.settings, "text": "Cài Đặt"},
-    {"icon": Icons.help, "text": "Tợ Giúp "},
+    // {"icon": Icons.settings, "text": "Cài Đặt"},
+    // {"icon": Icons.help, "text": "Tợ Giúp "},
     {"icon": Icons.logout, "text": "Đăng Xuất"},
   ];
 

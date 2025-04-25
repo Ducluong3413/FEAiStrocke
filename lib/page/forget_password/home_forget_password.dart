@@ -202,31 +202,31 @@ class _RegisterScreenState extends State<SignUp> {
                           ),
                 ),
               ),
-              const SizedBox(height: 20),
-              const Center(child: Text("or sign up with")),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(
-                    Icons.g_mobiledata,
-                    size: 40,
-                    color: Color.fromARGB(255, 24, 188, 203),
-                  ),
-                  SizedBox(width: 20),
-                  Icon(
-                    Icons.facebook,
-                    size: 40,
-                    color: Color.fromARGB(255, 24, 188, 203),
-                  ),
-                  SizedBox(width: 20),
-                  Icon(
-                    Icons.fingerprint,
-                    size: 40,
-                    color: Color.fromARGB(255, 24, 188, 203),
-                  ),
-                ],
-              ),
+              // const SizedBox(height: 20),
+              // const Center(child: Text("or sign up with")),
+              // const SizedBox(height: 10),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: const [
+              //     Icon(
+              //       Icons.g_mobiledata,
+              //       size: 40,
+              //       color: Color.fromARGB(255, 24, 188, 203),
+              //     ),
+              //     SizedBox(width: 20),
+              //     Icon(
+              //       Icons.facebook,
+              //       size: 40,
+              //       color: Color.fromARGB(255, 24, 188, 203),
+              //     ),
+              //     SizedBox(width: 20),
+              //     Icon(
+              //       Icons.fingerprint,
+              //       size: 40,
+              //       color: Color.fromARGB(255, 24, 188, 203),
+              //     ),
+              //   ],
+              // ),
               const SizedBox(height: 20),
               Center(
                 child: GestureDetector(
