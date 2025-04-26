@@ -1,5 +1,8 @@
-import 'package:assistantstroke/controler/device_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
+import 'package:assistantstroke/controler/device_controller.dart';
+import 'package:assistantstroke/controler/ble_controller.dart'; // Import BleController
+import 'package:get/get.dart';
 
 class DeviceInputPage extends StatefulWidget {
   const DeviceInputPage({super.key});
@@ -14,11 +17,16 @@ class _DeviceInputPageState extends State<DeviceInputPage> {
   final TextEditingController _seriesController = TextEditingController();
 
   bool _isLoading = false;
+  final BleController bleController = Get.put(BleController()); // Khởi tạo BleController
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Future<void> _onSubmit() async {
     setState(() => _isLoading = true);
-    if (context == null ||
-        _deviceNameController.text.isEmpty ||
+    if (_deviceNameController.text.isEmpty ||
         _deviceTypeController.text.isEmpty ||
         _seriesController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -28,6 +36,7 @@ class _DeviceInputPageState extends State<DeviceInputPage> {
       return;
     }
 
+    // Gọi hàm submitDeviceInfo ở đây
     await DeviceController.submitDeviceInfo(
       context: context,
       deviceName: _deviceNameController.text,
@@ -36,6 +45,10 @@ class _DeviceInputPageState extends State<DeviceInputPage> {
     );
 
     setState(() => _isLoading = false);
+  }
+
+  void _scanForDevices() {
+    bleController.scanDevices(); // Gọi phương thức quét từ BleController
   }
 
   @override
@@ -64,10 +77,52 @@ class _DeviceInputPageState extends State<DeviceInputPage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _isLoading ? null : _onSubmit,
-              child:
-                  _isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text('Gửi thông tin'),
+              child: _isLoading
+                  ? const CircularProgressIndicator()
+                  : const Text('Gửi thông tin'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _scanForDevices,
+              child: const Text('Quét Bluetooth'),
+            ),
+            const SizedBox(height: 20),
+            Text('Thiết bị Bluetooth tìm thấy:'),
+            Expanded(
+              child: GetBuilder<BleController>(
+                init: bleController,
+                builder: (BleController controller) {
+                  return StreamBuilder<List<ScanResult>>(
+                    stream: controller.scanResults,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                        return ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            final data = snapshot.data![index];
+                            return Card(
+                              elevation: 2,
+                              child: ListTile(
+                                title: Text(data.device.name.isNotEmpty
+                                    ? data.device.name
+                                    : 'Không tên'),
+                                subtitle: Text(data.device.id.toString()),
+                                trailing: Text(data.rssi.toString()),
+                                onTap: () {
+                                  // Kết nối với thiết bị khi nhấn vào
+                                  controller.connectToDevice(data.device);
+                                },
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        return const Center(child: Text("No Device Found"));
+                      }
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),
