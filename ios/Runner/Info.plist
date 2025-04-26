@@ -51,5 +51,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+  	<string>Ứng dụng cần dùng Bluetooth để kết nối với thiết bị IoT.</string>
 </dict>
 </plist>
