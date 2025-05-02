@@ -47,7 +47,8 @@ dependencies:
   latlong2: ^0.9.1
   flutter_blue_plus: ^1.24.8
   permission_handler: ^11.0.1
-  
+  firebase_core: ^1.10.0
+  firebase_messaging: ^10.0.0
   shared_preferences: ^2.0.6
   # google_maps_flutter: ^2.5.0
   flutter_radar_chart: ^0.2.1

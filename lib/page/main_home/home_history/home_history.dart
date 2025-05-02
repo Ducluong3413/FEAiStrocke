@@ -1,6 +1,10 @@
+import 'package:assistantstroke/controler/data/averageall14day_controller.dart';
+import 'package:assistantstroke/controler/data/dailyDay_controller.dart';
 import 'package:assistantstroke/controler/device_list_controller.dart';
 import 'package:assistantstroke/controler/usermedicaldatas_controller.dart';
 import 'package:assistantstroke/model/UserMedicalDataResponse.dart';
+import 'package:assistantstroke/model/averageall14daynew.dart';
+import 'package:assistantstroke/model/dailyDay.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -12,13 +16,69 @@ class HomeHistory extends StatefulWidget {
 class _HomeHistoryState extends State<HomeHistory> {
   UserMedicalDataResponse? data;
   bool isLoading = true;
+  List<Result>? result;
+  List<DailyDay>? dailyday;
 
   @override
   void initState() {
     super.initState();
+    fetchResults();
     _loadData();
   }
 
+  fetchResults() async {
+    final deviceController = DeviceController();
+    final devices = await deviceController.getDevices();
+    if (devices.isNotEmpty) {
+      final deviceId = devices.first.deviceId;
+      result = await RemoteService().fetchResults(deviceId);
+      if (result != null) {
+        setState(() {
+          isLoaded = true;
+        });
+      } else {
+        setState(() {
+          isLoaded = false;
+        });
+      }
+    } else {
+      setState(() {
+        isLoaded = false;
+      });
+      print('Không có thiết bị nào.');
+    }
+  }
+
+  fetchDailyDay(String date) async {
+    final deviceController = DeviceController();
+    final devices = await deviceController.getDevices();
+    final deviceId = devices.first.deviceId;
+
+    if (devices.isNotEmpty) {
+      var response = await RemoteDailyController().fetchDailyDay(
+        date,
+        deviceId,
+      );
+      if (response != null) {
+        setState(() {
+          dailyday = response;
+          isLoaded = true;
+        });
+      } else {
+        setState(() {
+          isLoaded = false;
+        });
+      }
+    } else {
+      setState(() {
+        isLoaded = false;
+      });
+      print('Không có thiết bị nào.');
+    }
+  }
+
+  var checkday = false;
+  var isLoaded = false;
   Future<void> _loadData() async {
     final deviceController = DeviceController();
     final devices = await deviceController.getDevices();
@@ -99,8 +159,15 @@ class _HomeHistoryState extends State<HomeHistory> {
     Color color2,
     List<List<double>> data,
   ) {
-    List<double> ngay = data[0];
-    List<double> dem = data[1];
+    List<double> ngay = [];
+    List<double> dem = [];
+    List<double> gio = [];
+    if (selectedDayIndex == null) {
+      ngay = data[0];
+      dem = data[1];
+    } else {
+      gio = data[0];
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +181,11 @@ class _HomeHistoryState extends State<HomeHistory> {
           height: 150,
           child: BarChart(
             BarChartData(
-              barGroups: _buildBarGroups(ngay, dem),
+              barGroups:
+                  selectedDayIndex == null
+                      ? _buildBarGroups(ngay, dem)
+                      : _buildBarDailyday(gio),
+
               titlesData: FlTitlesData(
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
@@ -152,11 +223,14 @@ class _HomeHistoryState extends State<HomeHistory> {
         SizedBox(height: 4),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildLegend(color1, 'Ngày'),
-            SizedBox(width: 16),
-            _buildLegend(color2, 'Đêm'),
-          ],
+          children:
+              selectedDayIndex == null
+                  ? [
+                    _buildLegend(color1, 'Ngày'),
+                    SizedBox(width: 16),
+                    _buildLegend(color2, 'Đêm'),
+                  ]
+                  : [_buildLegend(color1, 'Giờ'), SizedBox(width: 16)],
         ),
         SizedBox(height: 16),
       ],
@@ -179,13 +253,23 @@ class _HomeHistoryState extends State<HomeHistory> {
         );
       }
     }
+    return groups;
+  }
 
+  List<BarChartGroupData> _buildBarDailyday(List<double> gio) {
+    List<BarChartGroupData> groups = [];
+    for (int i = 0; i < gio.length; i++) {
+      groups.add(
+        BarChartGroupData(
+          x: i + 1,
+          barRods: [BarChartRodData(toY: gio[i], color: Colors.red, width: 8)],
+        ),
+      );
+    }
     return groups;
   }
 
   Widget _buildDayButtons() {
-    print(_getData1());
-
     return Wrap(
       spacing: 8,
       runSpacing: 8,
@@ -205,8 +289,36 @@ class _HomeHistoryState extends State<HomeHistory> {
           },
           child: Text('ALL'),
         ),
+        // ...List.generate(14, (index) {
+        //   final isSelected = selectedDayIndex == index;
+        //   return ElevatedButton(
+        //     style: ElevatedButton.styleFrom(
+        //       backgroundColor: isSelected ? Colors.blue : Colors.grey[300],
+        //       foregroundColor: isSelected ? Colors.white : Colors.black,
+        //     ),
+        //     onPressed: () {
+        //       setState(() {
+        //         selectedDayIndex = selectedDayIndex == index ? null : index;
+        //       });
+        //       if (selectedDayIndex != null) {
+        //         fetchDailyDay();
+        //       }
+        //     },
+        //     child: Text('${index + 1}'),
+        //   );
+        // }),
         ...List.generate(14, (index) {
+          // Lấy ngày hôm nay
+          DateTime currentDate = DateTime.now();
+
+          // Tính toán ngày bằng cách trừ đi số ngày tương ứng (index)
+          DateTime day = currentDate.subtract(Duration(days: index));
+          String dayString = day.toString();
+          String formattedDate =
+              DateTime.parse(dayString).toIso8601String().split('T')[0];
+
           final isSelected = selectedDayIndex == index;
+
           return ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: isSelected ? Colors.blue : Colors.grey[300],
@@ -216,8 +328,11 @@ class _HomeHistoryState extends State<HomeHistory> {
               setState(() {
                 selectedDayIndex = selectedDayIndex == index ? null : index;
               });
+              if (selectedDayIndex != null) {
+                fetchDailyDay(dayString);
+              }
             },
-            child: Text('${index + 1}'),
+            child: Text(formattedDate),
           );
         }),
       ],
@@ -229,79 +344,296 @@ class _HomeHistoryState extends State<HomeHistory> {
   //   [155, 152, 158, 160, 165, 162, 170, 155, 152, 158, 160, 165, 162, 170],
   //   [145, 142, 148, 150, 155, 152, 158, 145, 142, 148, 150, 155, 152, 158],
   // ];
+
   List<List<double>> _getData1() {
-    if (data == null) return [[], []];
-    // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
-    final ngay =
-        data?.results?.map((e) => e.averageSystolicPressure).toList() ?? [];
+    if (result == null) return [[], []];
 
-    final dem =
-        data?.results?.map((e) => e.averageSystolicPressureNight).toList() ??
-        [];
+    // Lọc và loại bỏ giá trị null rồi ép kiểu thành double không nullable
+    if (selectedDayIndex == null) {
+      final ngay =
+          result
+              ?.map((e) => e.dailyAverage?.averageSystolicPressure)
+              .where((e) => e != null) // Lọc null
+              .map((e) => e!) // Ép kiểu
+              .toList() ??
+          [];
 
-    // nếu bạn chưa có dữ liệu đêm, có thể thay sau
-    return [ngay, dem];
+      final dem =
+          result
+              ?.map((e) => e.nightlyAverage?.averageSystolicPressure)
+              .where((e) => e != null) // Lọc null
+              .map((e) => e!) // Ép kiểu
+              .toList() ??
+          [];
+
+      return [ngay, dem];
+    } else {
+      final gio =
+          dailyday
+              ?.map((e) => e.systolicPressure)
+              .toString()
+              .split(',')
+              .map((e) => double.tryParse(e) ?? 0.0)
+              .toList() ??
+          [];
+
+      return [gio];
+    }
   }
 
   List<List<double>> _getData2() {
-    if (data == null) return [[], []];
-    // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
-    final ngay =
-        data?.results?.map((e) => e.averageDiastolicPressure).toList() ?? [];
+    if (result == null) return [[], []];
+    if (selectedDayIndex == null) {
+      // Lọc và loại bỏ giá trị null rồi ép kiểu thành double không nullable
+      final ngay =
+          result
+              ?.map((e) => e.dailyAverage?.averageTemperature)
+              .where((e) => e != null) // Lọc null
+              .map((e) => e!) // Ép kiểu
+              .toList() ??
+          [];
 
-    final dem =
-        data?.results?.map((e) => e.averageDiastolicPressureNight).toList() ??
-        [];
+      final dem =
+          result
+              ?.map((e) => e.nightlyAverage?.averageTemperature)
+              .where((e) => e != null) // Lọc null
+              .map((e) => e!) // Ép kiểu
+              .toList() ??
+          [];
 
-    // nếu bạn chưa có dữ liệu đêm, có thể thay sau
-    return [ngay, dem];
+      return [ngay, dem];
+    } else {
+      // Nếu có chỉ số ngày được chọn
+      final gio =
+          dailyday
+              ?.map((e) => e.temperature)
+              .toString()
+              .split(',')
+              .map((e) => double.tryParse(e) ?? 0.0)
+              .toList() ??
+          [];
+
+      return [gio];
+    }
   }
 
   List<List<double>> _getData3() {
-    if (data == null) return [[], []];
-    // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
-    final ngay = data?.results?.map((e) => e.averageSpO2).toList() ?? [];
+    if (result == null) return [[], []];
+    if (selectedDayIndex == null) {
+      // Lọc và loại bỏ giá trị null rồi ép kiểu thành double không nullable
+      final ngay =
+          result
+              ?.map((e) => e.dailyAverage?.averageSpO2)
+              .where((e) => e != null) // Lọc null
+              .map((e) => e!) // Ép kiểu
+              .toList() ??
+          [];
 
-    final dem = data?.results?.map((e) => e.averageSpO2Night).toList() ?? [];
+      final dem =
+          result
+              ?.map((e) => e.nightlyAverage?.averageSpO2)
+              .where((e) => e != null) // Lọc null
+              .map((e) => e!) // Ép kiểu
+              .toList() ??
+          [];
 
-    // nếu bạn chưa có dữ liệu đêm, có thể thay sau
-    return [ngay, dem];
+      return [ngay, dem];
+    } else {
+      // Nếu có chỉ số ngày được chọn
+      final gio =
+          dailyday
+              ?.map((e) => e.spo2Information)
+              .toString()
+              .split(',')
+              .map((e) => double.tryParse(e) ?? 0.0)
+              .toList() ??
+          [];
+
+      return [gio];
+    }
   }
 
   List<List<double>> _getData4() {
-    if (data == null) return [[], []];
-    // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
-    final ngay = data?.results?.map((e) => e.averageTemperature).toList() ?? [];
+    if (result == null) return [[], []];
+    if (selectedDayIndex == null) {
+      // Lọc và loại bỏ giá trị null rồi ép kiểu thành double không nullable
+      final ngay =
+          result
+              ?.map((e) => e.dailyAverage?.averageHeartRate)
+              .where((e) => e != null) // Lọc null
+              .map((e) => e!) // Ép kiểu
+              .toList() ??
+          [];
 
-    final dem =
-        data?.results?.map((e) => e.averageTemperatureNight).toList() ?? [];
+      final dem =
+          result
+              ?.map((e) => e.nightlyAverage?.averageHeartRate)
+              .where((e) => e != null) // Lọc null
+              .map((e) => e!) // Ép kiểu
+              .toList() ??
+          [];
 
-    // nếu bạn chưa có dữ liệu đêm, có thể thay sau
-    return [ngay, dem];
+      return [ngay, dem];
+    } else {
+      // Nếu có chỉ số ngày được chọn
+      final gio =
+          dailyday
+              ?.map((e) => e.heartRate)
+              .toString()
+              .split(',')
+              .map((e) => double.tryParse(e) ?? 0.0)
+              .toList() ??
+          [];
+
+      return [gio];
+    }
   }
 
   List<List<double>> _getData5() {
-    if (data == null) return [[], []];
-    // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
-    final ngay = data?.results?.map((e) => e.averageHeartRate).toList() ?? [];
+    if (result == null) return [[], []];
+    if (selectedDayIndex == null) {
+      // Lọc và loại bỏ giá trị null rồi ép kiểu thành double không nullable
+      final ngay =
+          result
+              ?.map((e) => e.dailyAverage?.averageBloodPh)
+              .where((e) => e != null) // Lọc null
+              .map((e) => e!) // Ép kiểu
+              .toList() ??
+          [];
 
-    final dem =
-        data?.results?.map((e) => e.averageHeartRateNight).toList() ?? [];
+      final dem =
+          result
+              ?.map((e) => e.nightlyAverage?.averageBloodPh)
+              .where((e) => e != null) // Lọc null
+              .map((e) => e!) // Ép kiểu
+              .toList() ??
+          [];
 
-    // nếu bạn chưa có dữ liệu đêm, có thể thay sau
-    return [ngay, dem];
+      return [ngay, dem];
+    } else {
+      // Nếu có chỉ số ngày được chọn
+      final gio =
+          dailyday
+              ?.map((e) => e.bloodPh)
+              .toString()
+              .split(',')
+              .map((e) => double.tryParse(e) ?? 0.0)
+              .toList() ??
+          [];
+
+      return [gio];
+    }
   }
 
   List<List<double>> _getData6() {
-    if (data == null) return [[], []];
-    // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
-    final ngay = data?.results?.map((e) => e.averagePH).toList() ?? [];
+    if (result == null) return [[], []];
+    if (selectedDayIndex == null) {
+      // Lọc và loại bỏ giá trị null rồi ép kiểu thành double không nullable
+      final ngay =
+          result
+              ?.map((e) => e.dailyAverage?.averageDiastolicPressure)
+              .where((e) => e != null) // Lọc null
+              .map((e) => e!) // Ép kiểu
+              .toList() ??
+          [];
 
-    final dem = data?.results?.map((e) => e.averagePHNight).toList() ?? [];
+      final dem =
+          result
+              ?.map((e) => e.nightlyAverage?.averageDiastolicPressure)
+              .where((e) => e != null) // Lọc null
+              .map((e) => e!) // Ép kiểu
+              .toList() ??
+          [];
 
-    // nếu bạn chưa có dữ liệu đêm, có thể thay sau
-    return [ngay, dem];
+      return [ngay, dem];
+    } else {
+      // Nếu có chỉ số ngày được chọn
+      final gio =
+          dailyday
+              ?.map((e) => e.diastolicPressure)
+              .toString()
+              .split(',')
+              .map((e) => double.tryParse(e) ?? 0.0)
+              .toList() ??
+          [];
+
+      return [gio];
+    }
   }
+
+  // List<List<double>> _getData1() {
+  //   if (data == null) return [[], []];
+  //   // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
+  //   final ngay =
+  //       data?.results?.map((e) => e.averageSystolicPressure).toList() ?? [];
+
+  //   final dem =
+  //       data?.results?.map((e) => e.averageSystolicPressureNight).toList() ??
+  //       [];
+
+  //   // nếu bạn chưa có dữ liệu đêm, có thể thay sau
+  //   return [ngay, dem];
+  // }
+
+  // List<List<double>> _getData2() {
+  //   if (data == null) return [[], []];
+  //   // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
+  //   final ngay =
+  //       data?.results?.map((e) => e.averageDiastolicPressure).toList() ?? [];
+
+  //   final dem =
+  //       data?.results?.map((e) => e.averageDiastolicPressureNight).toList() ??
+  //       [];
+
+  //   // nếu bạn chưa có dữ liệu đêm, có thể thay sau
+  //   return [ngay, dem];
+  // }
+
+  // List<List<double>> _getData3() {
+  //   if (data == null) return [[], []];
+  //   // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
+  //   final ngay = data?.results?.map((e) => e.averageSpO2).toList() ?? [];
+
+  //   final dem = data?.results?.map((e) => e.averageSpO2Night).toList() ?? [];
+
+  //   // nếu bạn chưa có dữ liệu đêm, có thể thay sau
+  //   return [ngay, dem];
+  // }
+
+  // List<List<double>> _getData4() {
+  //   if (data == null) return [[], []];
+  //   // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
+  //   final ngay = data?.results?.map((e) => e.averageTemperature).toList() ?? [];
+
+  //   final dem =
+  //       data?.results?.map((e) => e.averageTemperatureNight).toList() ?? [];
+
+  //   // nếu bạn chưa có dữ liệu đêm, có thể thay sau
+  //   return [ngay, dem];
+  // }
+
+  // List<List<double>> _getData5() {
+  //   if (data == null) return [[], []];
+  //   // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
+  //   final ngay = data?.results?.map((e) => e.averageHeartRate).toList() ?? [];
+
+  //   final dem =
+  //       data?.results?.map((e) => e.averageHeartRateNight).toList() ?? [];
+
+  //   // nếu bạn chưa có dữ liệu đêm, có thể thay sau
+  //   return [ngay, dem];
+  // }
+
+  // List<List<double>> _getData6() {
+  //   if (data == null) return [[], []];
+  //   // final ngay = data!.results.map((e) => e.averageSystolicPressure).toList();
+  //   final ngay = data?.results?.map((e) => e.averagePH).toList() ?? [];
+
+  //   final dem = data?.results?.map((e) => e.averagePHNight).toList() ?? [];
+
+  //   // nếu bạn chưa có dữ liệu đêm, có thể thay sau
+  //   return [ngay, dem];
+  // }
 
   Widget _buildLegend(Color color, String text) {
     return Row(
